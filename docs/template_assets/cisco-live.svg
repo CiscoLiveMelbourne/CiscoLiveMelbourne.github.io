@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-label="Cisco Live">
+  <rect width="640" height="160" fill="none"/>
+  <text x="320" y="72" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700">Cisco Live</text>
+  <text x="320" y="118" text-anchor="middle" fill="#00BDEB" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400">Webex Admin API Lab</text>
+</svg>

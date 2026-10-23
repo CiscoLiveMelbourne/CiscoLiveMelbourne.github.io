@@ -1,0 +1,194 @@
+{
+  "info": {
+    "name": "Webex Admin API Lab",
+    "description": "Cisco Live walk-in lab: Automating User, License, and Hybrid Services Management with Webex Admin APIs. Set the collection variables `access_token` and `org_id` (Variables tab) before running. Use a Service App token or a temporary developer.webex.com token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "base_url", "value": "https://webexapis.com/v1" },
+    { "key": "scim_base", "value": "https://webexapis.com/identity/scim" },
+    { "key": "access_token", "value": "PASTE_YOUR_ADMIN_TOKEN" },
+    { "key": "org_id", "value": "PASTE_BASE64_ORG_ID" },
+    { "key": "orgid", "value": "PASTE_SCIM_ORG_UUID" },
+    { "key": "test_domain", "value": "PASTE_YOUR_DCLOUD_DOMAIN" },
+    { "key": "person_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "0. Setup",
+      "item": [
+        {
+          "name": "Who am I (/people/me)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/people/me", "host": ["{{base_url}}"], "path": ["people", "me"] }
+          }
+        },
+        {
+          "name": "List organizations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const items = pm.response.json().items || [];",
+                  "function scimOrgId(encoded) {",
+                  "  const padding = '='.repeat((4 - (encoded.length % 4)) % 4);",
+                  "  const text = atob(encoded + padding);",
+                  "  const marker = 'ORGANIZATION/';",
+                  "  const index = text.indexOf(marker);",
+                  "  return index === -1 ? encoded : text.slice(index + marker.length);",
+                  "}",
+                  "if (items.length) {",
+                  "  pm.collectionVariables.set('org_id', items[0].id);",
+                  "  pm.collectionVariables.set('orgid', scimOrgId(items[0].id));",
+                  "}",
+                  "pm.test('has an org', () => pm.expect(items.length).to.be.above(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/organizations", "host": ["{{base_url}}"], "path": ["organizations"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Users - create, update, lifecycle",
+      "item": [
+        {
+          "name": "Create user (People API)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body.id) { pm.collectionVariables.set('person_id', body.id); }",
+                  "pm.test('created', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emails\": [\"labuser01@{{test_domain}}\"],\n  \"displayName\": \"Ada Lovelace\",\n  \"firstName\": \"Ada\",\n  \"lastName\": \"Lovelace\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/people", "host": ["{{base_url}}"], "path": ["people"] }
+          }
+        },
+        {
+          "name": "Update user (People API)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emails\": [\"labuser01@{{test_domain}}\"],\n  \"displayName\": \"Ada Lovelace\",\n  \"firstName\": \"Ada\",\n  \"lastName\": \"Lovelace\",\n  \"title\": \"Cisco Live Attendee\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/people/{{person_id}}", "host": ["{{base_url}}"], "path": ["people", "{{person_id}}"] }
+          }
+        },
+        {
+          "name": "Bulk create users (SCIM 2.0)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemas\": [\"urn:ietf:params:scim:api:messages:2.0:BulkRequest\"],\n  \"failOnErrors\": 1,\n  \"operations\": [\n    {\n      \"method\": \"POST\",\n      \"path\": \"/Users\",\n      \"bulkId\": \"user-001\",\n      \"data\": {\n        \"schemas\": [\"urn:ietf:params:scim:schemas:core:2.0:User\"],\n        \"userName\": \"labuser02@{{test_domain}}\",\n        \"displayName\": \"Alan Turing\",\n        \"name\": { \"givenName\": \"Alan\", \"familyName\": \"Turing\" },\n        \"emails\": [{ \"value\": \"labuser02@{{test_domain}}\", \"type\": \"work\", \"primary\": true }],\n        \"active\": true\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{scim_base}}/{{orgid}}/v2/Bulk",
+              "host": ["{{scim_base}}"],
+              "path": ["{{orgid}}", "v2", "Bulk"]
+            }
+          }
+        },
+        {
+          "name": "Delete user (lifecycle)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{base_url}}/people/{{person_id}}", "host": ["{{base_url}}"], "path": ["people", "{{person_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Licenses",
+      "item": [
+        {
+          "name": "List licenses (usage)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/licenses?orgId={{org_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["licenses"],
+              "query": [{ "key": "orgId", "value": "{{org_id}}" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Roles",
+      "item": [
+        {
+          "name": "List available roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/roles", "host": ["{{base_url}}"], "path": ["roles"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 & 5. Hybrid Services",
+      "item": [
+        {
+          "name": "List hybrid clusters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/hybrid/clusters?orgId={{org_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["hybrid", "clusters"],
+              "query": [{ "key": "orgId", "value": "{{org_id}}" }]
+            }
+          }
+        },
+        {
+          "name": "List hybrid connectors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/hybrid/connectors?orgId={{org_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["hybrid", "connectors"],
+              "query": [{ "key": "orgId", "value": "{{org_id}}" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

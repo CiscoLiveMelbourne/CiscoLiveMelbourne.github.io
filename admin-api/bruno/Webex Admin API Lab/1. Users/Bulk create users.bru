@@ -1,0 +1,85 @@
+meta {
+  name: Bulk create users (SCIM 2.0)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{scim_base}}/{{orgid}}/v2/Bulk
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "schemas": ["urn:ietf:params:scim:api:messages:2.0:BulkRequest"],
+    "failOnErrors": 1,
+    "operations": [
+      {
+        "method": "POST",
+        "path": "/Users",
+        "bulkId": "user-001",
+        "data": {
+          "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "userName": "labuser01@{{test_domain}}",
+          "displayName": "Ada Lovelace",
+          "name": { "givenName": "Ada", "familyName": "Lovelace" },
+          "emails": [{ "value": "labuser01@{{test_domain}}", "type": "work", "primary": true }],
+          "active": true
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/Users",
+        "bulkId": "user-002",
+        "data": {
+          "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "userName": "labuser02@{{test_domain}}",
+          "displayName": "Alan Turing",
+          "name": { "givenName": "Alan", "familyName": "Turing" },
+          "emails": [{ "value": "labuser02@{{test_domain}}", "type": "work", "primary": true }],
+          "active": true
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/Users",
+        "bulkId": "user-003",
+        "data": {
+          "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "userName": "labuser03@{{test_domain}}",
+          "displayName": "Grace Hopper",
+          "name": { "givenName": "Grace", "familyName": "Hopper" },
+          "emails": [{ "value": "labuser03@{{test_domain}}", "type": "work", "primary": true }],
+          "active": true
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/Users",
+        "bulkId": "user-004",
+        "data": {
+          "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "userName": "labuser04@{{test_domain}}",
+          "displayName": "Katherine Johnson",
+          "name": { "givenName": "Katherine", "familyName": "Johnson" },
+          "emails": [{ "value": "labuser04@{{test_domain}}", "type": "work", "primary": true }],
+          "active": true
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/Users",
+        "bulkId": "user-005",
+        "data": {
+          "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "userName": "labuser05@{{test_domain}}",
+          "displayName": "Dennis Ritchie",
+          "name": { "givenName": "Dennis", "familyName": "Ritchie" },
+          "emails": [{ "value": "labuser05@{{test_domain}}", "type": "work", "primary": true }],
+          "active": true
+        }
+      }
+    ]
+  }
+}

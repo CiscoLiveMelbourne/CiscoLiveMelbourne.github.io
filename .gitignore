@@ -1,0 +1,10 @@
+.env
+*.token
+.venv/
+venv/
+__pycache__/
+.cache/
+site/
+.DS_Store
+admin-api/data/created_users.json
+admin-api/data/*.out.csv

@@ -1,0 +1,15 @@
+meta {
+  name: List licenses (usage)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/licenses?orgId={{org_id}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  orgId: {{org_id}}
+}

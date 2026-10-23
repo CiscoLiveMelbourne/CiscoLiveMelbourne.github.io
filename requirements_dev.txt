@@ -1,0 +1,5 @@
+mkdocs<2
+mkdocs-material
+mkdocs-glightbox
+Pygments
+mkdocs-macros-plugin

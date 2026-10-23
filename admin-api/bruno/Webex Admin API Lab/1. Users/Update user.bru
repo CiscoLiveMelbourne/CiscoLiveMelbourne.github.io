@@ -1,0 +1,21 @@
+meta {
+  name: Update user (People API)
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{base_url}}/people/{{person_id}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "emails": ["labuser01@{{test_domain}}"],
+    "displayName": "Ada Lovelace",
+    "firstName": "Ada",
+    "lastName": "Lovelace",
+    "title": "Cisco Live Attendee"
+  }
+}

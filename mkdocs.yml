@@ -1,0 +1,109 @@
+---
+site_name: 'LABCOL-1529 Automating User, License, and Hybrid Services Management with Webex Admin APIs'
+site_description: 'LABCOL-1529 Automating User, License, and Hybrid Services Management with Webex Admin APIs'
+site_author: Cisco Live Lab Team
+site_url: 'https://ciscolivemelbourne.github.io/'
+copyright: Copyright &copy; 2026 Cisco
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.instant
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - content.code.copy
+    - toc.integrate
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  logo: template_assets/webexLogo91.png
+  favicon: template_assets/webex75.png
+extra:
+  generator: false
+  repository_url: "https://github.com/CiscoLiveMelbourne/CiscoLiveMelbourne.github.io"
+  site_event: Cisco Live Melbourne 2026
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - template_assets/js/newLoad.js
+  - template_assets/js/setInfo.js
+plugins:
+  - search
+  # Pages show literal Bruno {{variables}}; opt a page in with `render_macros: true`.
+  - macros:
+      render_by_default: false
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: fade
+      slide_effect: slide
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: false
+      skip_classes:
+      - custom-skip-class-name
+      auto_caption: true
+      caption_position: top
+markdown_extensions:
+  - md_in_html
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - tables
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Home: index.md
+  - Welcome: welcome.md
+  - Customer guide: customer-guide.md
+  - Lab:
+      - Overview: overview.md
+      - Lab 0 - Verify token and find your org: lab0_token.md
+      - Lab 1 - Bulk users and lifecycle: lab1_users.md
+      - Lab 2 - License usage: lab2_licenses.md
+      - Lab 3 - Roles and access: lab3_roles.md
+      - Lab 4 - Hybrid Services licenses: lab4_hybrid_licenses.md
+      - Lab 5 - Hybrid clusters and connectors: lab5_hybrid_health.md
+      - Conclusion: conclusion.md
+  - Bruno Track:
+      - Open the collection: bruno/overview.md
+  - Topologies: topologies.md
+  - Reference:
+      - Lab Credentials: reference/credentials.md
+      - Take-Home Bundle: reference/take-home.md
+      - Admin API vs Control Hub: reference/admin-api-vs-control-hub.md
+      - Completion Checklist: reference/checklist.md
+      - Troubleshooting Matrix: reference/troubleshooting.md
+      - Known Caveats: reference/caveats.md
+      - Links and Resources: reference/links.md
+  # Lab-guide authoring docs are deliberately NOT in this site. MkDocs publishes every
+  # .md under docs/ whether or not it appears in nav, so they live in the internal
+  # lab-team-syllabus instead. See lab-team-syllabus/docs/authoring/.

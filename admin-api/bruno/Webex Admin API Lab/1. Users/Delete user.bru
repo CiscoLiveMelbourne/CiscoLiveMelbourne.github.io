@@ -1,0 +1,15 @@
+meta {
+  name: Delete user (lifecycle)
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}/people/{{person_id}}
+  body: none
+  auth: inherit
+}
+
+docs {
+  Permanently deletes the user saved in person_id. Run only after Create user.
+}

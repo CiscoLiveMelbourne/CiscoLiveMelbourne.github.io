@@ -1,0 +1,33 @@
+meta {
+  name: Create user (People API)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/people
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "emails": ["labuser01@{{test_domain}}"],
+    "displayName": "Ada Lovelace",
+    "firstName": "Ada",
+    "lastName": "Lovelace"
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body.id) {
+    bru.setEnvVar("person_id", body.id, { persist: true });
+  }
+}
+
+tests {
+  test("user created", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}
