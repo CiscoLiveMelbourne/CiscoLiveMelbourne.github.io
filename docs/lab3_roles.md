@@ -1,27 +1,31 @@
-# Lab 3 - List roles in both tools, then assign one
+# Lab 3 - Roles
 
 **Time: 32-40 min**
 
-List the administrator roles in Bruno and in the script. Assigning a role is the script only. Bruno has no assign request.
+List the administrator roles in Bruno first, then in VS Code. Assigning a role runs in VS Code only, because the Bruno collection has no assign request.
 
-## Section 1 - List roles in Bruno
+## Section 1 - List roles
+
+**Bruno**
 
 1. Open **3. Roles → List roles**.
 2. Select **Send**.
 
-The call is `GET /v1/roles`. Note the name you will assign. This lab uses **Read-only Administrator**.
+The call is `GET /v1/roles`. Find **Read-only Administrator**. You assign it in Section 2.
 
-## Section 2 - List roles in the script
+**VS Code**
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\03_roles.py list
 ```
 
-The printed names match the Bruno response.
+The printed names and ids match the Bruno response.
 
-## Section 3 - Assign a role
+## Section 2 - Assign a role
 
-Use a person you created in this lab. Replace the domain with <copy><w class="TestDomain">your verified domain</w></copy>.
+**VS Code**
+
+Use a person you created in Lab 1. Replace the domain with <copy><w class="TestDomain">your verified domain</w></copy>.
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\03_roles.py assign --email labuser01@YOUR-DOMAIN --role "Read-only Administrator"
@@ -35,9 +39,8 @@ In Control Hub, open that user and confirm the role is listed.
 
 You are ready for Lab 4 when:
 
-* [ ] Bruno and the script both listed roles
-* [ ] The script assigned **Read-only Administrator** to one lab user, or you can explain the `PUT` it sends
-* [ ] You did not assign the role from Bruno, because that request is not in the collection
+* [ ] Bruno and VS Code both listed the roles
+* [ ] VS Code assigned **Read-only Administrator** to one lab user, and Control Hub shows it
 
 ## Troubleshooting
 

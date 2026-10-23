@@ -2,7 +2,7 @@
 
 **Time: 8-12 min**
 
-Confirm the personal access token in Bruno, then create one user. Leave VS Code closed for the calls in this lab. You will use it in Lab 1.
+This lab is Bruno only. Use your personal access token to see who you are, then create one user. VS Code starts in Lab 1, after you create the Service App.
 
 ## Section 1 - Open Bruno
 

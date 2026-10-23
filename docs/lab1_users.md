@@ -1,8 +1,8 @@
-# Lab 1 - Service App, then bulk users in both tools
+# Lab 1 - Service App, then bulk users
 
 **Time: 12-25 min**
 
-A personal token can create one user. Bulk create needs a Service App access token. You will put that token in Bruno and in `.env`, then run bulk create, update, and cleanup in both tools.
+A personal token can create one user. Bulk create needs a Service App access token. You create the Service App once, then every section runs in **Bruno first** and **VS Code second**.
 
 ## Section 1 - Create the Service App
 
@@ -22,7 +22,7 @@ A personal token can create one user. Bulk create needs a Service App access tok
 
 Leave the client secret and the refresh token on that page. They do not go in Bruno or in `.env`.
 
-## Section 2 - Put the same token in Bruno and in `.env`
+## Section 2 - Put the Service App token in both tools
 
 **Bruno**
 
@@ -31,34 +31,25 @@ Leave the client secret and the refresh token on that page. They do not go in Br
 3. Run **0. Setup → List organizations**.
 4. Confirm the environment now has `org_id` (the value that starts with `Y2lz`) and `orgid` (a UUID).
 
-`orgid` is the part after `ORGANIZATION/` when `org_id` is decoded. Licenses use `org_id`. SCIM bulk uses `orgid`.
-
-**`.env`**
-
-1. Open `Desktop\admin-api\env-template.txt` in Notepad.
-2. Fill only these four lines. `WEBEX_ACCESS_TOKEN` is the Service App access token, on one line, with no quotes. `WEBEX_ORG_ID` is the same UUID as Bruno `orgid`.
-
-```text
-WEBEX_ACCESS_TOKEN=
-WEBEX_ORG_ID=
-
-WEBEX_API_BASE=https://webexapis.com/v1
-WEBEX_SCIM_BASE=https://webexapis.com/identity/scim
-```
-
-3. Choose **File → Save As**. Set **Save as type** to **All Files** and **Encoding** to **UTF-8**. Save the file as `.env` in `Desktop\admin-api`. Do not choose **Unicode**.
+Licenses and Hybrid calls use `org_id`. SCIM bulk uses `orgid`.
 
 **VS Code**
 
-1. Open the `Desktop\admin-api` folder if it is not already open.
-2. Select the interpreter `scripts\.venv\Scripts\python.exe`.
-3. Open the terminal in that folder and run:
+1. Open `Desktop\admin-api\env-template.txt` in Notepad.
+2. Fill only these two lines. `WEBEX_ACCESS_TOKEN` is the same Service App access token, on one line, with no quotes. `WEBEX_ORG_ID` is the same UUID as Bruno `orgid`.
 
-```bat
-scripts\.venv\Scripts\python.exe scripts\00_check_token.py
-```
+    ```text
+    WEBEX_ACCESS_TOKEN=
+    WEBEX_ORG_ID=
 
-**Name** is the Service App. If `WEBEX_ORG_ID` is empty, copy the printed **SCIM orgid** into `.env` and save the file again.
+    WEBEX_API_BASE=https://webexapis.com/v1
+    WEBEX_SCIM_BASE=https://webexapis.com/identity/scim
+    ```
+
+3. Choose **File → Save As**. Set **Save as type** to **All Files** and **Encoding** to **UTF-8**. Save the file as `.env` in `Desktop\admin-api`. Do not choose **Unicode**.
+4. In VS Code, choose **File → Open Folder** and open `Desktop\admin-api` if it is not already open.
+5. Select the interpreter `scripts\.venv\Scripts\python.exe`.
+6. Open a terminal. It opens in `admin-api`. Run every command in this lab from that folder.
 
 ## Section 3 - Bulk create
 
@@ -69,60 +60,59 @@ scripts\.venv\Scripts\python.exe scripts\00_check_token.py
 3. Confirm the JSON list is named `operations`.
 4. Select **Send**.
 
-Each user in the response has a status starting with `201`. Bruno does not read `data\users.csv`.
+Each user in the response has a status starting with `201`.
 
-**Script**
+**VS Code**
 
-1. Open `Desktop\admin-api\data\users.csv`.
-2. Change `@lab.invalid` to <copy><w class="TestDomain">your verified domain</w></copy>.
-3. In the VS Code terminal, from the `admin-api` folder, run:
+1. Open `data\users.csv`.
+2. Change `@lab.invalid` to <copy><w class="TestDomain">your verified domain</w></copy> and save.
+3. In the terminal, run:
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim
 ```
 
-The script writes the new ids to `data\created_users.json`. Bruno does not write that file.
+Each created user prints a status starting with `201`. The script records the new ids in `data\created_users.json`, so cleanup deletes only these users.
 
 ## Section 4 - Update
 
-**Bruno.** Open **1. Users → Update user** and select **Send**. The request uses `person_id` saved by **Create user** and sets the title `Cisco Live Attendee`.
+**Bruno**
 
-**Script.** This updates only the people listed in `data\created_users.json`.
+1. Open **1. Users → Update user**.
+2. Select **Send**.
+
+The request uses `person_id` saved by **Create user** in Lab 0 and sets the title `Cisco Live Attendee`.
+
+**VS Code**
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py update --title "Cisco Live Attendee"
 ```
 
-## Section 5 - Cleanup
-
-Run this at the end of the lab, after Lab 3, if you still need the users for role assignment.
-
-**Bruno.** Open **1. Users → Delete user** and select **Send**. This deletes the one user stored in `person_id`.
-
-**Script.** This deletes only the users the script created.
-
-```bat
-scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py cleanup
-```
+This updates only the people listed in `data\created_users.json`. In Control Hub, open one of them and confirm the title.
 
 ## Checkpoint
 
 You are ready for Lab 2 when:
 
-* [ ] **Who am I** shows the Service App
+* [ ] **Who am I** in Bruno shows the Service App
 * [ ] Bruno has `org_id` and `orgid`
-* [ ] `.env` is UTF-8 and contains the Service App access token and the UUID
-* [ ] Bulk create returned `201` in Bruno and in the script
-* [ ] You know cleanup runs at the end, and the script deletes only tracked users
+* [ ] `.env` is saved as UTF-8 with the Service App access token and the UUID
+* [ ] Bulk create returned `201` in Bruno and in VS Code
+* [ ] Update set the title in both tools
+
+You delete these users at the end of the lab, in the [Conclusion](conclusion.md). Keep them for now; Lab 3 assigns a role to one of them.
 
 ## Troubleshooting
 
 | Problem | Solution |
 | --- | --- |
-| 401 | Generate tokens again. Replace the Bruno secret and `WEBEX_ACCESS_TOKEN`. Save `.env` as UTF-8 and send the request again. |
-| Who am I still shows the administrator | That tool still has the personal token. Paste the Service App access token. |
+| 401 | Generate tokens again. Replace the Bruno secret and `WEBEX_ACCESS_TOKEN`. Save `.env` as UTF-8 and try again. |
+| Who am I still shows the administrator | Bruno still has the personal token. Paste the Service App access token into the `access_token` secret. |
+| `WEBEX_ACCESS_TOKEN is not set` | `.env` is missing, saved as `.env.txt`, or saved outside `admin-api`. Save it again with **Save as type: All Files**. |
+| `--mode scim requires WEBEX_ORG_ID` | Paste Bruno `orgid` into `WEBEX_ORG_ID` and save `.env`. |
 | SCIM 400 on `Operations` | Rename that field to `operations`. |
-| SCIM rejects the organization id | Use `orgid` and `WEBEX_ORG_ID`. Both are the UUID, not the `Y2lz` value. |
+| SCIM rejects the organization id | Use the UUID (`orgid`), not the `Y2lz` value. |
 | CSV file not found | The VS Code terminal is not in `Desktop\admin-api`. |
 | 409 on create | That email already exists. Use a different address in the CSV or in the Bruno body. |
 

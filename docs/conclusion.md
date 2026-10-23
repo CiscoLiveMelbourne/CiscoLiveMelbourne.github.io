@@ -4,12 +4,22 @@ You used Webex Admin APIs to provision users, inspect licenses, apply roles, and
 
 ## Before you leave
 
-1. Run cleanup so the reservation does not keep lab users:
+Clean up so the reservation does not keep lab users. Bruno first, then VS Code.
 
-    <copy>python scripts/01_bulk_users.py cleanup</copy>
+**Bruno**
 
-2. Remove the token from `.env` or let the reservation expire.
-3. Take the [take-home bundle](reference/take-home.md) with you.
+1. Open **1. Users → Delete user**.
+2. Select **Send**. This deletes the one user you created in Lab 0, stored in `person_id`.
+
+**VS Code**
+
+```bat
+scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py cleanup
+```
+
+This deletes only the users the script created in Lab 1. Confirm in Control Hub that they are gone.
+
+Then remove the token from `.env`, or let the reservation expire, and take the [take-home bundle](reference/take-home.md) with you.
 
 ## What you can reuse
 

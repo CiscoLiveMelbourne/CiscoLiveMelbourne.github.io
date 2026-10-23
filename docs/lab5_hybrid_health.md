@@ -1,21 +1,23 @@
-# Lab 5 - Clusters and connectors in both tools
+# Lab 5 - Hybrid clusters and connectors
 
 **Time: 48-55 min**
 
-Read Hybrid clusters and connectors in Bruno, then run the script that checks both.
+Read Hybrid clusters and connectors in Bruno first, then run the script that checks both in VS Code.
 
-## Section 1 - Bruno
+## Section 1 - Clusters and connectors
+
+**Bruno**
 
 1. Open **4 & 5. Hybrid Services → List hybrid clusters** and select **Send**. This is `GET /v1/hybrid/clusters`.
 2. Open **4 & 5. Hybrid Services → List hybrid connectors** and select **Send**. This is `GET /v1/hybrid/connectors`.
 
-## Section 2 - Script
+**VS Code**
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\05_hybrid_health.py
 ```
 
-The script prints both lists. It flags a connector whose state is not `running`.
+The script prints both lists and flags any connector whose state is not `running`.
 
 An empty list means no connector is registered in this organization. That is a valid result. Record it and continue.
 
@@ -24,7 +26,7 @@ An empty list means no connector is registered in this organization. That is a v
 You are ready to wrap up when:
 
 * [ ] Both Bruno requests were sent
-* [ ] The script printed the same clusters and connectors, or reported that none were found
+* [ ] VS Code printed the same clusters and connectors, or reported that none were found
 * [ ] You can name the two scopes these calls use: `spark-admin:hybrid_clusters_read` and `spark-admin:hybrid_connectors_read`
 
 ## Troubleshooting

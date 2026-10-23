@@ -86,16 +86,15 @@ The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your pro
 
 ### What you should know
 
-You should be comfortable signing in to Control Hub and reading a JSON response. You do not need to write Python. Each lab shows the Bruno request and, from Lab 1 on, the matching script command.
+You should be comfortable signing in to Control Hub and reading a JSON response. You do not need to write Python. Every section has a **Bruno** step and then a **VS Code** step. Always run Bruno first.
 
 **Bruno** sends one REST call that you can read. **The script** sends the same kind of call for every row in a file, and it records the users it created so cleanup can delete only those users.
 
 ### Your first five minutes
 
 1. On the lab desktop, open **Control Hub** and sign in as <copy><w class="WbxUser">your lab admin</w></copy>. Confirm you can see users.
-2. Open **Bruno**. Choose **Open Collection** and select `Desktop\admin-api\bruno\Webex Admin API Lab`. Select the **Lab** environment.
-3. Open **VS Code**. Choose **File → Open Folder** and open `Desktop\admin-api`. Select the interpreter `scripts\.venv\Scripts\python.exe`.
-4. Continue to [Lab 0](lab0_token.md). Lab 0 is Bruno only.
+2. Open **Bruno** and **VS Code**. Lab 0 walks you through Bruno, and Lab 1 through VS Code.
+3. Continue to [Lab 0](lab0_token.md).
 
 ## Lab rules
 
@@ -109,7 +108,7 @@ You should be comfortable signing in to Control Hub and reading a JSON response.
 | ---: | --- | --- |
 | 0-8 min | Orientation | Sign in, open Bruno and VS Code |
 | 8-12 min | [Lab 0](lab0_token.md) | Who am I and Create user in Bruno |
-| 12-25 min | [Lab 1](lab1_users.md) | Service App token, then bulk create, update, and cleanup in both tools |
+| 12-25 min | [Lab 1](lab1_users.md) | Service App token, then bulk create and update in both tools |
 | 25-32 min | [Lab 2](lab2_licenses.md) | List licenses in both tools |
 | 32-40 min | [Lab 3](lab3_roles.md) | List roles in both tools; assign a role from the script |
 | 40-48 min | [Lab 4](lab4_hybrid_licenses.md) | Hybrid licenses in both tools |
@@ -117,4 +116,4 @@ You should be comfortable signing in to Control Hub and reading a JSON response.
 | 55-60 min | [Wrap-up](conclusion.md) | Cleanup and take-home |
 
 !!! note
-    Do Lab 0 in Bruno before you create the Service App. From Lab 1 on, run the Bruno request and then the script command in the same section.
+    Lab 0 is Bruno only, with your personal access token. From Lab 1 on, every section is Bruno first, then VS Code, with the same Service App access token.

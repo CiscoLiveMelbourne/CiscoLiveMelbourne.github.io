@@ -83,18 +83,15 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Welcome: welcome.md
-  - Customer guide: customer-guide.md
   - Lab:
       - Overview: overview.md
-      - Lab 0 - Verify token and find your org: lab0_token.md
-      - Lab 1 - Bulk users and lifecycle: lab1_users.md
+      - Lab 0 - Who am I and create one user: lab0_token.md
+      - Lab 1 - Service App and bulk users: lab1_users.md
       - Lab 2 - License usage: lab2_licenses.md
-      - Lab 3 - Roles and access: lab3_roles.md
+      - Lab 3 - Roles: lab3_roles.md
       - Lab 4 - Hybrid Services licenses: lab4_hybrid_licenses.md
       - Lab 5 - Hybrid clusters and connectors: lab5_hybrid_health.md
       - Conclusion: conclusion.md
-  - Bruno Track:
-      - Open the collection: bruno/overview.md
   - Topologies: topologies.md
   - Reference:
       - Lab Credentials: reference/credentials.md
