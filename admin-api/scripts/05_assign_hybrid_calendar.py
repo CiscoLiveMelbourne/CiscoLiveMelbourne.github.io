@@ -15,7 +15,6 @@ Required token scopes:
 """
 
 import argparse
-import csv
 import sys
 from pathlib import Path
 
@@ -38,12 +37,6 @@ def find_calendar_license() -> dict:
     return matches[0]
 
 
-def read_emails(csv_path: Path) -> list[str]:
-    with csv_path.open(newline="", encoding="utf-8") as handle:
-        emails = [(row.get("email") or "").strip() for row in csv.DictReader(handle)]
-    return [email for email in emails if email]
-
-
 def find_person(email: str) -> dict | None:
     people = wx.get("/people", params={"email": email}).get("items", [])
     return people[0] if people else None
@@ -57,7 +50,7 @@ def main() -> None:
 
     if not args.csv.is_file():
         sys.exit(f"CSV not found: {args.csv}")
-    emails = read_emails(args.csv)
+    emails = [row["email"] for row in wx.read_users_csv(args.csv)]
     if not emails:
         sys.exit(f"No emails found in {args.csv} (expected an 'email' column).")
 

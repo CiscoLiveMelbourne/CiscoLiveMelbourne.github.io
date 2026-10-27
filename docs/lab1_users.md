@@ -61,9 +61,9 @@ Each user in the response has a status starting with `201`.
 
 **VS Code**
 
-1. Open `data\users.csv`.
-2. Change `@lab.invalid` to <copy><w class="TestDomain">your verified domain</w></copy> and save.
-3. In the terminal, run:
+`data\users.csv` lists names only, such as `barbara.liskov`. The script finds your pod's domain from the users already in the organization, adds it to each name, and prints it as **Lab domain**. It matches <copy><w class="TestDomain">your verified domain</w></copy>. You do not edit the CSV.
+
+In the terminal, run:
 
 ```bat
 scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim

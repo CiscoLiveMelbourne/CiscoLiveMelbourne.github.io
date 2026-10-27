@@ -25,10 +25,10 @@ The printed names and ids match the Bruno response.
 
 **VS Code**
 
-Use a person you created in Lab 1. Replace the domain with <copy><w class="TestDomain">your verified domain</w></copy>.
+Use a person you created in Lab 1. Give just the name; the script adds your lab domain.
 
 ```bat
-scripts\.venv\Scripts\python.exe scripts\03_roles.py assign --email labuser01@YOUR-DOMAIN --role "Read-only Administrator"
+scripts\.venv\Scripts\python.exe scripts\03_roles.py assign --email labuser01 --role "Read-only Administrator"
 ```
 
 The script reads the person's current roles, adds this role, and sends `PUT /v1/people/{id}`.
@@ -46,7 +46,7 @@ You are ready for Lab 4 when:
 
 | Problem | Solution |
 | --- | --- |
-| Assign says the user was not found | The email domain must be <copy><w class="TestDomain">your verified domain</w></copy>, and that user must already exist. |
+| Assign says the user was not found | That user must already exist. If you typed a full email, its domain must be <copy><w class="TestDomain">your verified domain</w></copy>. |
 | 403 on assign | The Service App needs `spark-admin:people_write` and `spark-admin:roles_read`. Add the scope, authorize the app again, and generate a new access token. |
 
 Continue to [Lab 4](lab4_hybrid_licenses.md).

@@ -8,9 +8,11 @@ never written to disk or logged. Treat it like a password.
 """
 
 import base64
+import csv
 import os
 import sys
 import time
+from collections import Counter
 
 import requests
 from dotenv import load_dotenv
@@ -149,3 +151,43 @@ def me() -> dict:
 def org_id() -> str:
     """Return the base64 organization id of the token's own organization."""
     return me().get("orgId") or ""
+
+
+_lab_domain: str | None = None
+
+
+def lab_domain() -> str:
+    """Return the most common email domain among the organization's users.
+
+    Every dCloud pod has its own verified domain, and the users that come with
+    the session are on it, so the lab never has to hardcode a domain.
+    """
+    global _lab_domain
+    if _lab_domain is None:
+        counts = Counter()
+        for person in get("/people", params={"max": 100}).get("items", []):
+            for email in person.get("emails") or []:
+                if "@" in email:
+                    counts[email.rsplit("@", 1)[1].lower()] += 1
+        if not counts:
+            sys.exit("ERROR: could not detect the lab domain; the organization has no users")
+        _lab_domain = counts.most_common(1)[0][0]
+        print(f"Lab domain: {_lab_domain}")
+    return _lab_domain
+
+
+def full_email(value: str) -> str:
+    """Add the lab domain to a bare name such as 'barbara.liskov'."""
+    value = (value or "").strip()
+    if not value or "@" in value:
+        return value
+    return f"{value}@{lab_domain()}"
+
+
+def read_users_csv(csv_path) -> list:
+    """Read a users CSV and complete every 'email' value with the lab domain."""
+    with open(csv_path, newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    for row in rows:
+        row["email"] = full_email(row.get("email") or "")
+    return [row for row in rows if row["email"]]

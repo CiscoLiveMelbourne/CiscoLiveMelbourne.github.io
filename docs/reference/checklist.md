@@ -10,7 +10,7 @@ Use this checklist to confirm you have completed the core lab exercises.
 - [ ] I created a Service App and put **access_token** in the Bruno secret and in `.env`
 - [ ] `.env` is UTF-8 and has the Service App access token
 - [ ] I ran bulk create, update, licenses, roles, and Hybrid licenses in Bruno and in the script
-- [ ] I remapped `data/users.csv` to the verified dCloud domain before the script bulk create
+- [ ] The script printed **Lab domain** matching my verified domain
 - [ ] Lab 2 printed license used / total / free
 - [ ] Lab 3 listed roles
 - [ ] Lab 3 assigned a role to a lab user (optional if short on time)

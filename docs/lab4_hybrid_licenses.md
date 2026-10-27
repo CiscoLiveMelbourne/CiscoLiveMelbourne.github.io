@@ -64,7 +64,7 @@ You are ready for the conclusion when:
 | --- | --- |
 | VS Code prints nothing about Hybrid | Compare it with the Bruno list. If Bruno also has no Hybrid license, the organization does not have one. |
 | `No Hybrid Calendar license found in this org` | The organization has no Hybrid Calendar license. Record it and continue. |
-| `not found` for CSV users | Those users do not exist. Run the Lab 1 bulk create first, and check that the CSV emails use your lab domain. Cleanup runs only in the [Conclusion](conclusion.md). |
+| `not found` for CSV users | Those users do not exist. Run the Lab 1 bulk create first, and check that the **Lab domain** the script prints is your verified domain. Cleanup runs only in the [Conclusion](conclusion.md). |
 | 403 on assign | The Service App needs `spark-admin:people_write` and `spark-admin:licenses_read`. Add the scope, authorize the app again, and generate a new access token. |
 | CSV file not found | The VS Code terminal is not in `Desktop\admin-api`. |
 | 401 | Use the current Service App access token in Bruno and in `.env`. |

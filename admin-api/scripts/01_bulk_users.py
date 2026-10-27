@@ -20,12 +20,12 @@ Usage:
     # Lifecycle: deactivate then delete the lab users we created
     python scripts/01_bulk_users.py cleanup
 
+The CSV lists names without a domain; the scripts add this pod's domain.
 Created user ids are tracked in data/created_users.json so cleanup only ever
 touches users this lab created - never pre-existing org members.
 """
 
 import argparse
-import csv
 import json
 import sys
 import uuid
@@ -44,11 +44,6 @@ def _load_tracked() -> list:
 
 def _save_tracked(users: list) -> None:
     TRACK_FILE.write_text(json.dumps(users, indent=2))
-
-
-def _read_csv(csv_path: str) -> list:
-    with open(csv_path, newline="", encoding="utf-8") as handle:
-        return list(csv.DictReader(handle))
 
 
 def create_people_api(rows: list) -> list:
@@ -76,7 +71,7 @@ def create_scim_bulk(rows: list, org_id: str) -> list:
     bulk_index = {}
     for row in rows:
         bulk_id = str(uuid.uuid4())
-        bulk_index[f"bulkId:{bulk_id}"] = row["email"]
+        bulk_index[bulk_id] = row["email"]
         operations.append(
             {
                 "method": "POST",
@@ -107,7 +102,7 @@ def create_scim_bulk(rows: list, org_id: str) -> list:
     for op in result.get("operations", result.get("Operations", [])):
         location = op.get("location", "")
         person_id = location.rstrip("/").split("/")[-1] if location else None
-        email = bulk_index.get(op.get("bulkId", ""), "unknown")
+        email = bulk_index.get(str(op.get("bulkId", "")).removeprefix("bulkId:"), "unknown")
         status = op.get("status", "?")
         print(f"  [{status}] {email} -> {person_id}")
         if person_id and str(status).startswith("2"):
@@ -116,7 +111,7 @@ def create_scim_bulk(rows: list, org_id: str) -> list:
 
 
 def cmd_create(args) -> None:
-    rows = _read_csv(args.csv)
+    rows = wx.read_users_csv(args.csv)
     print(f"Creating {len(rows)} users via {args.mode}...")
     if args.mode == "scim":
         created = create_scim_bulk(rows, wx.org_id())
@@ -156,8 +151,8 @@ def cleanup_from_csv(csv_path: str) -> None:
     by the Bruno bulk request), so they are not in created_users.json.
     """
     matches = []
-    for row in _read_csv(csv_path):
-        email = row["email"].strip()
+    for row in wx.read_users_csv(csv_path):
+        email = row["email"]
         found = wx.get("/people", params={"email": email}).get("items", [])
         if found:
             matches.append({"id": found[0]["id"], "email": email,

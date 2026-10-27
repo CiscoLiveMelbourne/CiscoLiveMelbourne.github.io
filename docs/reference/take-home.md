@@ -9,7 +9,7 @@ Clone the lab repository. Everything you used on the lab desktop is in its `admi
 - `scripts/` — one exercise per file plus `webex_client.py`
 - `bruno/Webex Admin API Lab/` — REST collection
 - `postman/Webex_Admin_API_Lab.postman_collection.json`
-- `data/users.csv` — remap the domain for your own test org
+- `data/users.csv` — names only; the scripts add your org's domain
 - `.env.example` — template only
 
 ## What not to keep

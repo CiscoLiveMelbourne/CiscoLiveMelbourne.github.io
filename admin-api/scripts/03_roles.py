@@ -7,7 +7,7 @@ you can demonstrate consistent, repeatable access control.
     python scripts/03_roles.py list
     python scripts/03_roles.py users
     python scripts/03_roles.py users --role "Full Administrator"
-    python scripts/03_roles.py assign --email labuser01@<dcloud-domain> --role "Read-only Administrator"
+    python scripts/03_roles.py assign --email barbara.liskov --role "Read-only Administrator"
 """
 
 import argparse
@@ -65,6 +65,7 @@ def _find_person(email: str) -> dict:
 
 
 def cmd_assign(args) -> None:
+    args.email = wx.full_email(args.email)
     role_id = _find_role_id(args.role)
     person = _find_person(args.email)
 
@@ -96,7 +97,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_users.set_defaults(func=cmd_users)
 
     p_assign = sub.add_parser("assign", help="assign a role to a user")
-    p_assign.add_argument("--email", required=True)
+    p_assign.add_argument("--email", required=True,
+                          help="full email, or just the name; the lab domain is added")
     p_assign.add_argument("--role", required=True, help="role name, e.g. 'Read-only Administrator'")
     p_assign.set_defaults(func=cmd_assign)
 
