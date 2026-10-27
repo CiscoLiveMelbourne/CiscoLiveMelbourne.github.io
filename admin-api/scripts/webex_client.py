@@ -99,6 +99,13 @@ def put(path: str, payload: dict) -> dict:
     return response.json() if response.text else {}
 
 
+def patch(path: str, payload: dict) -> dict:
+    url = f"{API_BASE}{path}"
+    response = _request("PATCH", url, headers=_headers(), json=payload)
+    response.raise_for_status()
+    return response.json() if response.text else {}
+
+
 def delete(path: str) -> None:
     url = f"{API_BASE}{path}"
     response = _request("DELETE", url, headers=_headers())

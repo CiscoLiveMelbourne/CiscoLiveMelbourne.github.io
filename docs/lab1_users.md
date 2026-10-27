@@ -101,7 +101,7 @@ You are ready for Lab 2 when:
 * [ ] Bulk create returned `201` in Bruno and in VS Code
 * [ ] Update set the title in both tools
 
-You delete these users at the end of the lab, in the [Conclusion](conclusion.md). Keep them for now; Lab 3 assigns a role to one of them.
+You delete these users at the end of the lab, in the [Conclusion](conclusion.md). Keep them for now; Lab 3 assigns a role to one of them, and Lab 4 assigns them the Hybrid Calendar license.
 
 ## Troubleshooting
 
