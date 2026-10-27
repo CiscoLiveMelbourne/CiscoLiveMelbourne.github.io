@@ -24,7 +24,7 @@ Leave the client secret and the refresh token on that page. They do not go in Br
 
 **Bruno**
 
-1. Replace the **Lab** secret `access_token` with the Service App access token.
+1. Replace the **Lab** secret `access_token` with the Service App access token. Use the row with **Secret** ticked, the same one you used in Lab 0.
 2. Run **0. Setup → Who am I** again. **displayName** is now the Service App, not the lab administrator.
 3. Run **0. Setup → List organizations**.
 4. Confirm the environment now has `org_id`, the value that starts with `Y2lz`.
