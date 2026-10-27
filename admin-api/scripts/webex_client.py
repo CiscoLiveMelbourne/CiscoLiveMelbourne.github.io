@@ -144,3 +144,8 @@ def scim_post(org_id: str, resource: str, payload: dict) -> dict:
 def me() -> dict:
     """Return the identity behind the current token (sanity check)."""
     return get("/people/me")
+
+
+def org_id() -> str:
+    """Return the base64 organization id of the token's own organization."""
+    return me().get("orgId") or ""

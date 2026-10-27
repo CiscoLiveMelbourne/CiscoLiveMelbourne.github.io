@@ -13,7 +13,6 @@
     { "key": "scim_base", "value": "https://webexapis.com/identity/scim" },
     { "key": "access_token", "value": "PASTE_YOUR_ADMIN_TOKEN" },
     { "key": "org_id", "value": "PASTE_BASE64_ORG_ID" },
-    { "key": "orgid", "value": "PASTE_SCIM_ORG_UUID" },
     { "key": "test_domain", "value": "PASTE_YOUR_DCLOUD_DOMAIN" },
     { "key": "person_id", "value": "" }
   ],
@@ -38,16 +37,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "const items = pm.response.json().items || [];",
-                  "function scimOrgId(encoded) {",
-                  "  const padding = '='.repeat((4 - (encoded.length % 4)) % 4);",
-                  "  const text = atob(encoded + padding);",
-                  "  const marker = 'ORGANIZATION/';",
-                  "  const index = text.indexOf(marker);",
-                  "  return index === -1 ? encoded : text.slice(index + marker.length);",
-                  "}",
                   "if (items.length) {",
                   "  pm.collectionVariables.set('org_id', items[0].id);",
-                  "  pm.collectionVariables.set('orgid', scimOrgId(items[0].id));",
                   "}",
                   "pm.test('has an org', () => pm.expect(items.length).to.be.above(0));"
                 ]
@@ -104,6 +95,24 @@
         },
         {
           "name": "Bulk create users (SCIM 2.0)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// SCIM paths take the organization UUID, the part after ORGANIZATION/ in the decoded org_id.",
+                  "const encoded = pm.collectionVariables.get('org_id') || '';",
+                  "const padding = '='.repeat((4 - (encoded.length % 4)) % 4);",
+                  "let text = '';",
+                  "try { text = atob(encoded + padding); } catch (error) { text = ''; }",
+                  "const marker = 'ORGANIZATION/';",
+                  "const index = text.indexOf(marker);",
+                  "pm.variables.set('orgid', index === -1 ? encoded : text.slice(index + marker.length));"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -155,37 +164,6 @@
             "method": "GET",
             "header": [],
             "url": { "raw": "{{base_url}}/roles", "host": ["{{base_url}}"], "path": ["roles"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "4 & 5. Hybrid Services",
-      "item": [
-        {
-          "name": "List hybrid clusters",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/hybrid/clusters?orgId={{org_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["hybrid", "clusters"],
-              "query": [{ "key": "orgId", "value": "{{org_id}}" }]
-            }
-          }
-        },
-        {
-          "name": "List hybrid connectors",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/hybrid/connectors?orgId={{org_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["hybrid", "connectors"],
-              "query": [{ "key": "orgId", "value": "{{org_id}}" }]
-            }
           }
         }
       ]

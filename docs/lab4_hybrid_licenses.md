@@ -1,6 +1,6 @@
 # Lab 4 - Hybrid Services licenses
 
-**Time: 40-48 min**
+**Time: 40-55 min**
 
 Bruno returns every license. The script prints only Hybrid Calendar, Hybrid Call, and Hybrid Message. Check Bruno first, then VS Code. Then assign the Hybrid Calendar license to the users in `data\users.csv` and see who holds it.
 
@@ -31,8 +31,8 @@ Assigning the license is VS Code only. Bruno has no assign request. The script r
 Run it once with `--dry-run` to see what would change, then without it to assign:
 
 ```bat
-scripts\.venv\Scripts\python.exe scripts\06_assign_hybrid_calendar.py --dry-run
-scripts\.venv\Scripts\python.exe scripts\06_assign_hybrid_calendar.py
+scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py --dry-run
+scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py
 ```
 
 The script skips anyone who already holds the license, so running it again is safe. For each user it calls `PATCH /v1/licenses/users` with the user's email, the organization id, and the license id with `"operation": "add"`.
@@ -51,7 +51,7 @@ An empty result means this organization has no Hybrid license turned on. That is
 
 ## Checkpoint
 
-You are ready for Lab 5 when:
+You are ready for the conclusion when:
 
 * [ ] You found the Hybrid rows in the Bruno license list, or confirmed there are none
 * [ ] VS Code printed the same Hybrid licenses, or reported there are none
@@ -69,4 +69,4 @@ You are ready for Lab 5 when:
 | CSV file not found | The VS Code terminal is not in `Desktop\admin-api`. |
 | 401 | Use the current Service App access token in Bruno and in `.env`. |
 
-Continue to [Lab 5](lab5_hybrid_health.md).
+Continue to the [Conclusion](conclusion.md).

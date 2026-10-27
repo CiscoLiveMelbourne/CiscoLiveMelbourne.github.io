@@ -54,8 +54,8 @@ Use the reservation administrator for Control Hub and token generation. Put the 
 | Lab 0 | [developer.webex.com](https://developer.webex.com/){:target="_blank"} | Copy the personal access token |
 | Lab 1 | Service App **Org Authorizations** | Copy **access_token** after you authorize the app |
 | Bruno, Lab 0 | Lab environment secret `access_token` | Personal access token for Who am I and Create user |
-| Bruno, Lab 1 onward | Same secret, replaced | Service App access token, `test_domain`, base64 `org_id`, SCIM UUID `orgid` |
-| VS Code | Local `.env` | `WEBEX_ACCESS_TOKEN` is the Service App access token. `WEBEX_ORG_ID` is the SCIM UUID |
+| Bruno, Lab 1 onward | Same secret, replaced | Service App access token, `test_domain`, `org_id` |
+| VS Code | Local `.env` | `WEBEX_ACCESS_TOKEN` is the Service App access token. The scripts read the organization id from it |
 
 ## Tokens you will generate
 

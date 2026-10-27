@@ -11,7 +11,7 @@ Usage:
     # Create users from a CSV using the People API (default)
     python scripts/01_bulk_users.py create --csv data/users.csv
 
-    # Create users using the SCIM 2.0 bulk endpoint (needs WEBEX_ORG_ID)
+    # Create users using the SCIM 2.0 bulk endpoint
     python scripts/01_bulk_users.py create --csv data/users.csv --mode scim
 
     # Update the display name / title of users created above
@@ -27,7 +27,6 @@ touches users this lab created - never pre-existing org members.
 import argparse
 import csv
 import json
-import os
 import sys
 import uuid
 from pathlib import Path
@@ -71,7 +70,7 @@ def create_people_api(rows: list) -> list:
 def create_scim_bulk(rows: list, org_id: str) -> list:
     """Create up to 100 users in a single SCIM 2.0 bulk request."""
     if not org_id:
-        sys.exit("ERROR: --mode scim requires WEBEX_ORG_ID in your .env")
+        sys.exit("ERROR: could not read the organization id from the token")
 
     operations = []
     bulk_index = {}
@@ -120,7 +119,7 @@ def cmd_create(args) -> None:
     rows = _read_csv(args.csv)
     print(f"Creating {len(rows)} users via {args.mode}...")
     if args.mode == "scim":
-        created = create_scim_bulk(rows, os.getenv("WEBEX_ORG_ID", "").strip())
+        created = create_scim_bulk(rows, wx.org_id())
     else:
         created = create_people_api(rows)
 

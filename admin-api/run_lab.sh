@@ -26,14 +26,11 @@ echo "### Exercise 3: available roles"
 python scripts/03_roles.py list
 pause
 
-echo "### Exercise 4: hybrid services licenses"
-python scripts/04_hybrid_licenses.py --show-users
-pause
-
-echo "### Exercise 5: hybrid clusters + connectors health"
-python scripts/05_hybrid_health.py
-pause
-
 echo "### Exercise 1: bulk create users (People API)"
 python scripts/01_bulk_users.py create --csv data/users.csv
+pause
+
+echo "### Exercise 4: assign the Hybrid Calendar license, then list hybrid licenses"
+python scripts/05_assign_hybrid_calendar.py
+python scripts/04_hybrid_licenses.py --show-users
 echo "Run 'python scripts/01_bulk_users.py cleanup' when you are done."

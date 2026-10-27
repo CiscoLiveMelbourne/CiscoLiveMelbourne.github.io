@@ -4,9 +4,9 @@ The license is part of the org's subscription, so no Hybrid Services setup or
 running connector is needed to assign it. Users who already hold the license
 are skipped, so re-running is safe.
 
-    python scripts/06_assign_hybrid_calendar.py --dry-run
-    python scripts/06_assign_hybrid_calendar.py
-    python scripts/06_assign_hybrid_calendar.py --csv data/users.csv
+    python scripts/05_assign_hybrid_calendar.py --dry-run
+    python scripts/05_assign_hybrid_calendar.py
+    python scripts/05_assign_hybrid_calendar.py --csv data/users.csv
 
 Required token scopes:
     spark-admin:licenses_read
@@ -63,8 +63,7 @@ def main() -> None:
 
     license_ = find_calendar_license()
     license_id = license_["id"]
-    # /licenses/users needs the base64 org id; WEBEX_ORG_ID in .env is the SCIM UUID.
-    org_id = wx.me().get("orgId")
+    org_id = wx.org_id()
     print(f"License: {license_.get('name')} "
           f"({license_.get('consumedUnits', '-')} / {license_.get('totalUnits', '-')} used)")
     print(f"Users in {args.csv.name}: {len(emails)}{'  [dry run]' if args.dry_run else ''}\n")

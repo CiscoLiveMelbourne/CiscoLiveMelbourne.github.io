@@ -9,7 +9,7 @@ Control Hub is the interactive admin surface. The Webex Admin APIs are the same 
 | Create users | Users → Manage users | `POST /people` or SCIM Bulk |
 | License consumption | Licensing | `GET /licenses` |
 | Admin roles | Users → Roles | `GET /roles` + `PUT /people/{id}` |
-| Hybrid connectors | Services → Hybrid | `GET /hybrid/clusters`, `GET /hybrid/connectors` |
+| Hybrid Calendar license | Users → Licenses | `PATCH /licenses/users` |
 
 !!! curious "When to use which"
     Use Control Hub to confirm what a human would see. Use the Admin APIs when the same action must be repeatable, bulk, or unattended (Service App).

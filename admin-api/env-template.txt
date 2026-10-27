@@ -1,9 +1,8 @@
 # Customer template. Save this file as .env in the admin-api folder.
-# Each person uses their own token and organization id.
+# Each person uses their own token. The scripts read the organization id from it.
 # Do not put this file in chat, screenshots, or git after you fill it in.
 
 WEBEX_ACCESS_TOKEN=
-WEBEX_ORG_ID=
 
 WEBEX_API_BASE=https://webexapis.com/v1
 WEBEX_SCIM_BASE=https://webexapis.com/identity/scim

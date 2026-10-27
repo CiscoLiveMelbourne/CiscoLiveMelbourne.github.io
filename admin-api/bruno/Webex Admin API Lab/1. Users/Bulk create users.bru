@@ -10,6 +10,21 @@ post {
   auth: inherit
 }
 
+script:pre-request {
+  // SCIM paths take the organization UUID, the part after ORGANIZATION/ in the decoded org_id.
+  const encoded = bru.getEnvVar("org_id") || "";
+  const padding = "=".repeat((4 - (encoded.length % 4)) % 4);
+  let text = "";
+  try {
+    text = atob(encoded + padding);
+  } catch (error) {
+    text = "";
+  }
+  const marker = "ORGANIZATION/";
+  const index = text.indexOf(marker);
+  bru.setVar("orgid", index === -1 ? encoded : text.slice(index + marker.length));
+}
+
 body:json {
   {
     "schemas": ["urn:ietf:params:scim:api:messages:2.0:BulkRequest"],

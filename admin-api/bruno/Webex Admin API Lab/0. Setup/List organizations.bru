@@ -11,24 +11,9 @@ get {
 }
 
 script:post-response {
-  function scimOrgId(encoded) {
-    const padding = "=".repeat((4 - (encoded.length % 4)) % 4);
-    let text = "";
-    try {
-      text = atob(encoded + padding);
-    } catch (error) {
-      return encoded;
-    }
-    const marker = "ORGANIZATION/";
-    const index = text.indexOf(marker);
-    return index === -1 ? encoded : text.slice(index + marker.length);
-  }
-
   const body = res.getBody();
   if (body.items?.length) {
-    const encoded = body.items[0].id;
-    bru.setEnvVar("org_id", encoded, { persist: true });
-    bru.setEnvVar("orgid", scimOrgId(encoded), { persist: true });
+    bru.setEnvVar("org_id", body.items[0].id, { persist: true });
   }
 }
 

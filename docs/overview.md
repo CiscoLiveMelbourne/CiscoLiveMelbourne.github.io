@@ -23,7 +23,7 @@ You will call the Webex Admin APIs for your lab organization from two tools at t
 
 * List license usage in Bruno and in the script.
 * List roles in both tools, and assign one role from the script.
-* Check Hybrid licenses, clusters, and connectors in both tools.
+* Check Hybrid licenses in both tools, and assign the Hybrid Calendar license from the script.
 
 ## Learning objectives
 
@@ -33,7 +33,7 @@ By the end of this lab you will be able to:
 * Create one user with the People API and many users with SCIM bulk.
 * Read organization license usage and admin roles.
 * Assign an admin role from a script.
-* Check Hybrid Services licenses, clusters, and connectors.
+* Check Hybrid Services licenses and assign the Hybrid Calendar license from a script.
 * Remove only the users this lab created.
 
 ## Disclaimer
@@ -111,8 +111,7 @@ You should be comfortable signing in to Control Hub and reading a JSON response.
 | 12-25 min | [Lab 1](lab1_users.md) | Service App token, then bulk create and update in both tools |
 | 25-32 min | [Lab 2](lab2_licenses.md) | List licenses in both tools |
 | 32-40 min | [Lab 3](lab3_roles.md) | List roles in both tools; assign a role from the script |
-| 40-48 min | [Lab 4](lab4_hybrid_licenses.md) | Hybrid licenses in both tools |
-| 48-55 min | [Lab 5](lab5_hybrid_health.md) | Clusters and connectors in both tools |
+| 40-55 min | [Lab 4](lab4_hybrid_licenses.md) | Hybrid licenses in both tools; assign Hybrid Calendar from the script |
 | 55-60 min | [Wrap-up](conclusion.md) | Cleanup and take-home |
 
 !!! note
