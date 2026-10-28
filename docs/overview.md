@@ -72,7 +72,7 @@ The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your pro
 >
 > Verified email domain: <copy><w class="TestDomain">Provided by proctor</w></copy>
 >
-> Organization ID: <copy><w class="OrgId">Fill after List organizations</w></copy>
+> Organization ID: <copy><w class="OrgId">Provided by proctor</w></copy>
 
 </div>
 

@@ -33,7 +33,7 @@ Use the reservation administrator for Control Hub and token generation. Put the 
 >
 > dCloud verified domain: <copy><w class="TestDomain">Provided by proctor</w></copy>
 >
-> Organization ID: <copy><w class="OrgId">Fill after Lab 1</w></copy>
+> Organization ID: <copy><w class="OrgId">Provided by proctor</w></copy>
 >
 > Pod ID: <copy><w class="Pod">Provided by proctor</w></copy>
 

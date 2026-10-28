@@ -7,7 +7,7 @@
 | `403 Forbidden` assigning the Hybrid Calendar license | Missing scope | Add `spark-admin:people_write` and `spark-admin:licenses_read` to the Service App and re-authorize |
 | `409` creating a user | Email already exists | Change the name in `users.csv`, or run cleanup first |
 | SCIM `400` attribute `Operations` | Bulk list used the wrong field name | Rename it to `operations` |
-| SCIM `403` or `400` on bulk | `org_id` is missing or from another organization, or more than 100 operations | Send **List organizations** again so `org_id` is current; Bulk create converts it to the UUID. Split more than 100 operations into batches |
+| SCIM `403` or `400` on bulk | `org_id` is missing or from another organization, or more than 100 operations | Run **List organizations** and check that its tests pass, which means `org_id` is this organization; Bulk create converts it to the UUID. Split more than 100 operations into batches |
 | `429 Too Many Requests` | Rate limit | The client auto-retries on `Retry-After`; slow down loops |
 | `No Hybrid Calendar license found` | The organization has no Hybrid Calendar license | Compare with the Bruno license list. Record it and continue |
 | `WEBEX_ACCESS_TOKEN is not set` | Missing `.env`, or the terminal is outside `admin-api` | Save `env-template.txt` as `.env` in `C:\Users\cholland\Desktop\admin-api` with the Service App access token |

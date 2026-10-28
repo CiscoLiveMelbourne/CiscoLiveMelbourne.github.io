@@ -21,7 +21,7 @@ Use this checklist to confirm you have completed the core lab exercises.
 ## Both tools
 
 - [ ] Bruno and VS Code were open on `Desktop\admin-api`
-- [ ] List organizations saved `org_id`
+- [ ] I entered `org_id` in Bruno, and the List organizations tests pass
 - [ ] Role assign and Hybrid Calendar license assign ran from the script
 
 ## Optional

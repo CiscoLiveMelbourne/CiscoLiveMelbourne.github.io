@@ -12,6 +12,8 @@ The collection is already on the lab desktop.
 2. Select **Open Collection** and choose `Desktop\admin-api\bruno\Webex Admin API Lab`.
 3. In the environment list at the top right, select **Lab**.
 4. Set `test_domain` to <copy><w class="TestDomain">your verified domain</w></copy>. Do not type `@`.
+5. Set `org_id` to <copy><w class="OrgId">your organization ID</w></copy>. Select the copy icon to copy the value you entered on the [Overview](overview.md) page. It starts with `Y2lz`. Every request that needs the organization uses this one variable.
+6. Save the environment.
 
 ## Section 2 - Add your personal access token
 
@@ -19,8 +21,7 @@ The collection is already on the lab desktop.
 2. Open any API page and copy the **personal access token**. It lasts about 12 hours.
 3. In the **Lab** environment, open **Secrets** and paste the token into `access_token`.
 
-    !!! warning "You may see `access_token` twice"
-        The Lab environment lists `access_token` once as a plain variable and once as a secret. They are the same variable, not two different tokens. Delete the row without the **Secret** tick. Paste the token into the row with **Secret** ticked, then save the environment. If both rows stay, Bruno can send the empty one and Who am I returns 401.
+    `access_token` is the only row with **Secret** ticked. Save the environment after you paste.
 
 4. Leave **Headers** as `Accept: application/json`. Do not put the token in a header yourself. The collection already sends it as `Authorization: Bearer`.
 
@@ -46,6 +47,7 @@ The response status is **200**. Bruno saves `person_id` from the response. You w
 You are ready for Lab 1 when:
 
 * [ ] **Lab** is the selected Bruno environment
+* [ ] `test_domain` and `org_id` are set in the Lab environment
 * [ ] `access_token` is the personal access token, stored as a secret
 * [ ] **Who am I** shows the lab administrator
 * [ ] **Create user** succeeded and the person is visible in Control Hub
@@ -55,7 +57,7 @@ You are ready for Lab 1 when:
 | Problem | Solution |
 | --- | --- |
 | 401 on Who am I | Copy the personal access token again and replace the `access_token` secret. Send the request again. |
-| 401 right after you pasted a fresh token | The Lab environment has two `access_token` rows. Keep only the row with **Secret** ticked, paste the token there, save, and send again. |
+| 401 right after you pasted a fresh token | The environment was not saved. Paste the token into `access_token` again, save the environment, and send again. |
 | displayName is not the lab administrator | Sign out of developer.webex.com and sign in as <copy><w class="WbxUser">your lab admin</w></copy>. |
 | Create user returns 409 | That email already exists. Change the address in the request body and send again. |
 

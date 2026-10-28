@@ -62,12 +62,12 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
 
 **Bruno**
 
-1. Replace the **Lab** secret `access_token` with the Service App access token. Use the row with **Secret** ticked, the same one you used in Lab 0.
+1. Replace the **Lab** secret `access_token` with the Service App access token, then save the environment.
 2. Run **0. Setup → Who am I** again. **displayName** is now the Service App, not the lab administrator.
 3. Run **0. Setup → List organizations**.
-4. Confirm the environment now has `org_id`, the value that starts with `Y2lz`.
+4. Open the **Tests** tab of the response. Both tests pass, which confirms that the `org_id` you entered in Lab 0 is this organization.
 
-`org_id` is the only organization id you need. Bulk create converts it to the UUID form that SCIM uses before it sends.
+`org_id` is the only organization id you need. Bulk create converts it to the UUID form that SCIM uses when you send it.
 
 **VS Code**
 
@@ -91,8 +91,8 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
 **Bruno**
 
 1. Open **1. Users → Bulk create users**.
-2. Confirm the URL is `{{scim_base}}/{{orgid}}/v2/Bulk`. The request fills `orgid` from `org_id` when you send it.
-3. Confirm the JSON list is named `operations`.
+2. Confirm the URL is `{{scim_base}}/{{org_id}}/v2/Bulk`.
+3. Confirm the JSON list is named `operations`. It creates `labuser02` to `labuser06`. `labuser01` is the user you created in Lab 0, so it is not in this list.
 4. Select **Send**.
 
 Each user in the response has a status starting with `201`.
@@ -131,7 +131,7 @@ This updates only the people listed in `data\created_users.json`. In Control Hub
 You are ready for Lab 2 when:
 
 * [ ] **Who am I** in Bruno shows the Service App
-* [ ] Bruno has `org_id`
+* [ ] **List organizations** tests pass, so Bruno `org_id` is this organization
 * [ ] `.env` is saved as UTF-8 with the Service App access token
 * [ ] Bulk create returned `201` in Bruno and in VS Code
 * [ ] Update set the title in both tools
@@ -150,7 +150,8 @@ You delete these users at the end of the lab, in the [Conclusion](conclusion.md)
 | `WEBEX_ACCESS_TOKEN is not set` | `.env` is missing, saved as `.env.txt`, or saved outside `admin-api`. Save it again with **Save as type: All Files**. |
 | `could not read the organization id from the token` | `.env` has the wrong token. Paste the Service App access token into `WEBEX_ACCESS_TOKEN` and save `.env`. |
 | SCIM 400 on `Operations` | Rename that field to `operations`. |
-| SCIM rejects the organization id | Send **0. Setup → List organizations** again so `org_id` belongs to this organization, then send bulk create again. |
+| **List organizations** test `org_id in the Lab environment is this organization` fails | `org_id` is empty or mistyped. Copy the `id` from the List organizations response into `org_id`, save the environment, and send again. |
+| SCIM rejects the organization id | Run **0. Setup → List organizations** and check that both tests pass, then send bulk create again. |
 | CSV file not found | The VS Code terminal is not in `Desktop\admin-api`. |
 | 409 on create | That email already exists. Use a different address in the CSV or in the Bruno body. |
 

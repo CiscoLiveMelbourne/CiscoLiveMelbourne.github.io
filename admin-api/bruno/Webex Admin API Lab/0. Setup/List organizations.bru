@@ -10,15 +10,13 @@ get {
   auth: inherit
 }
 
-script:post-response {
-  const body = res.getBody();
-  if (body.items?.length) {
-    bru.setEnvVar("org_id", body.items[0].id, { persist: true });
-  }
-}
-
 tests {
   test("has an organization", function () {
     expect(res.getBody().items.length).to.be.above(0);
+  });
+
+  test("org_id in the Lab environment is this organization", function () {
+    const ids = res.getBody().items.map((org) => org.id);
+    expect(ids).to.include(bru.getEnvVar("org_id"));
   });
 }
