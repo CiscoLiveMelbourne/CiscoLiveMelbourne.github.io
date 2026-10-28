@@ -14,7 +14,7 @@ You play two roles here: the developer who creates the app, and the full adminis
 2. Select your avatar at the top right, then select **My Webex Apps**.
 3. Select **Create a New App**, then select **Create a Service App**.
 4. Fill in the form:
-    * **App name**: `AdminAPI-Lab-Pod` followed by your two-digit pod number, for example `AdminAPI-Lab-Pod07`. Your pod number is <copy><w class="Pod">provided by the proctor</w></copy>. Write the name down; you search for it in Control Hub in Step 3.
+    * **App name**: `AdminAPI-Lab`. You search for this name in Control Hub in Step 3.
     * **Icon**: select any of the default icons
     * **Description**: `Cisco Live lab: bulk users, licenses, and roles`
     * **Contact email**: <copy><w class="WbxUser">your lab admin</w></copy>
@@ -43,7 +43,7 @@ The next page shows the **Client ID** and the **Client Secret**.
 3. In the left menu, under **Management**, select **Apps**.
 4. Select the **Service Apps** tab.
 5. Scroll to **Other service apps**. New apps that are waiting for approval are listed there, not under the apps already authorized.
-6. Find your app name, for example `AdminAPI-Lab-Pod07`, and select it. Type the name in the search box if the list is long.
+6. Find **AdminAPI-Lab** and select it. Type the name in the search box if the list is long.
 7. In the panel that opens, check that the scopes match the six you ticked.
 8. Select **Authorize**, then select **Save**. The app now shows as authorized.
 
