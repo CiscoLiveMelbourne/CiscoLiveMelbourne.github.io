@@ -29,20 +29,9 @@ The collection is already on the lab desktop.
 2. Select the request **Who am I (/people/me)**. It opens in a new tab.
 3. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
 
-The call is `GET /v1/people/me`. It returns the person who owns the access token, so it is the quickest way to check which identity a token acts as.
+**Read the response**
 
-In the response pane on the right, the status is **200** and the body describes you:
-
-| Field | What it tells you |
-| --- | --- |
-| `displayName` | Your name. It is the lab administrator, because you used your personal access token. |
-| `emails` | Your sign-in address, <copy><w class="WbxUser">your lab admin</w></copy> |
-| `id` | Your person id in Webex |
-| `orgId` | The organization you belong to. It is in a different format from the Organization ID in Control Hub, which is expected. |
-| `roles` | The administrator roles you hold, as role ids |
-| `licenses` | The licenses assigned to you, as license ids |
-
-If you see **401** instead, the token is missing or expired. See the troubleshooting table at the end of this lab.
+`GET /v1/people/me` returns the identity behind the token. The status is **200**, and `displayName` and `emails` show the lab administrator. A **401** means the token is missing or expired.
 
 ## Section 4 - Create one user
 
@@ -51,14 +40,9 @@ If you see **401** instead, the token is missing or expired. See the troubleshoo
 3. Select the **Body** tab and confirm the email address ends with `@{{test_domain}}`.
 4. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
 
-The call is `POST /v1/people`. It creates one user, `labuser01`, with the name **Ada Lovelace**.
+**Read the response**
 
-In the response pane, the status is **200** and the body is the new user record:
-
-* `id` is the new user's person id. Bruno saves it in the Lab environment as `person_id`, so you do not have to copy it. You use it again when you update this user in Lab 1 and delete it in the Conclusion.
-* `emails`, `displayName`, `firstName`, and `lastName` are the values from the request body.
-* `orgId` shows the user was created in your lab organization.
-* `created` is the date and time the user was created.
+`POST /v1/people` creates `labuser01` (Ada Lovelace). The status is **200** and the body is the new user. Bruno saves its `id` as `person_id` for the update in Lab 1 and the delete in the Conclusion.
 
 To check the result, open Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"} in the browser. In the left menu, under **Management**, select **Users**, and confirm the new person is listed.
 

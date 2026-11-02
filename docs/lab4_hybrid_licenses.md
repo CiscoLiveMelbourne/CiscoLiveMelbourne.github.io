@@ -10,7 +10,7 @@ No Hybrid Services setup is needed. The Hybrid Calendar license is part of the o
 
 ### What you are doing in this section
 
-Hybrid Services connect Webex to systems you run yourself, such as Microsoft Exchange or Google calendars. Each Hybrid Service is a license in the organization, so you find them with the same `GET /v1/licenses` call you ran in Lab 2. Bruno returns every license, and you look for the Hybrid ones yourself. The script filters the list for you.
+Hybrid Services are licenses, so you use the same `GET /v1/licenses` call as Lab 2. In Bruno you find the Hybrid rows yourself; the script filters them for you.
 
 ### Part A - Bruno
 
@@ -20,7 +20,7 @@ Hybrid Services connect Webex to systems you run yourself, such as Microsoft Exc
 
 **Read the response**
 
-On a typical lab pod you find three Hybrid licenses: **Hybrid - Exchange Calendar**, **Hybrid - Google Calendar**, and **Hybrid - Message**. For each one, `consumedUnits` is `0`, because no user holds it yet, and `totalUnits` is the number the organization owns, for example `19`. Note the numbers so you can compare them after Section 2.
+A typical pod has **Hybrid - Exchange Calendar**, **Hybrid - Google Calendar**, and **Hybrid - Message**, each with `consumedUnits` `0`.
 
 ### Part B - VS Code
 
@@ -33,31 +33,13 @@ On a typical lab pod you find three Hybrid licenses: **Hybrid - Exchange Calenda
 
 **Read the output**
 
-Under **== Hybrid Services licenses ==**, the script prints each Hybrid license with:
-
-* `id`, the license id that the assign script uses in Section 2
-* `consumed`, shown as used / total, for example `0 / 19`
-
-The last line, `Re-run with --show-users to list assigned users.`, points to Section 3. The licenses and numbers match the Hybrid rows in Bruno.
-
-If the script prints `No Hybrid Services licenses found in this org.`, your organization has no Hybrid license. It then lists all licenses instead. That is a valid result for this lab. Record it and continue.
+The same Hybrid licenses as Bruno, each with its `id` and `consumed` as used / total, such as `0 / 19`. `No Hybrid Services licenses found in this org.` is also a valid result.
 
 ## Section 2 - Assign the Hybrid Calendar license
 
 ### What you are doing in this section
 
-You assign the Hybrid Calendar license to the five users in `data\users.csv`, the same users you created in Lab 1. For each user, the script calls `PATCH /v1/licenses/users` with the user's email, the organization id, the license id, and `"operation": "add"`. `PATCH` adds the license without removing any license the user already has.
-
-This is VS Code only. Bruno has no assign request.
-
-You run the script twice:
-
-| Run | What it does |
-| --- | --- |
-| With `--dry-run` | Shows what would change. Nothing is assigned. |
-| Without `--dry-run` | Assigns the license. |
-
-A dry run is a safe habit before any change to many users at once.
+You assign the Hybrid Calendar license to the five `data\users.csv` users with `PATCH /v1/licenses/users`. You run it with `--dry-run` first to preview, then without it to assign. This is VS Code only.
 
 ### Run a dry run
 
@@ -67,26 +49,7 @@ A dry run is a safe habit before any change to many users at once.
     scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py --dry-run
     ```
 
-2. Read the output:
-
-    ```text
-    Lab domain: your-domain
-    Several calendar licenses found; using the first:
-      Hybrid - Exchange Calendar  [<license id>]
-      Hybrid - Google Calendar  [<license id>]
-    License: Hybrid - Exchange Calendar (0 / 19 used)
-    Users in users.csv: 5  [dry run]
-
-      would assign   barbara.liskov@your-domain
-      ...
-
-    Would assign: 5  Already had it: 0  Not found: 0  Failed: 0
-    ```
-
-    * **Several calendar licenses found** appears because the pod has both an Exchange and a Google calendar license. The script uses the first one in the list. Your pod may pick either.
-    * **License** is the license the script will assign, with its current usage.
-    * Each `would assign` line is a user who does not have the license yet.
-    * The last line is the summary. Nothing has changed yet.
+2. Read the output. **License** is the calendar license it will use; if the pod has two, the script picks the first. Each user shows `would assign`, and the summary is `Would assign: 5`. Nothing has changed yet.
 
 ### Assign the license
 
@@ -96,18 +59,13 @@ A dry run is a safe habit before any change to many users at once.
     scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py
     ```
 
-2. Read the output. It is the same as the dry run, except:
-
-    * Each user line says `assigned` instead of `would assign`.
-    * The summary starts with `Assigned: 5`.
-
-If you run the command again, each user shows `already has it` and the summary shows `Already had it: 5`. The script skips users who already hold the license, so running it again is safe.
+2. Read the output. Each user now shows `assigned`, and the summary is `Assigned: 5`. Running it again is safe; users show `already has it`.
 
 ## Section 3 - See who holds each Hybrid license
 
 ### What you are doing in this section
 
-You check the result of Section 2. The script lists every user in the organization and groups them by the Hybrid licenses they hold.
+You check Section 2 by listing who holds each Hybrid license.
 
 1. In the VS Code terminal, copy the command below, paste it, and press `Enter`:
 
@@ -117,25 +75,7 @@ You check the result of Section 2. The script lists every user in the organizati
 
 ### Read the output
 
-The first part is the same Hybrid license list as Section 1. The calendar license you assigned now shows `consumed : 5 / 19` instead of `0 / 19`. If it still shows `0`, wait a minute and run the command again; the usage count can take a short time to update.
-
-Under **== Assigned users per hybrid license ==**, each Hybrid license shows how many users hold it, followed by their names and email addresses:
-
-```text
-  Hybrid - Exchange Calendar: 5 user(s)
-    - Barbara Liskov                 barbara.liskov@your-domain
-    ...
-  Hybrid - Google Calendar: 0 user(s)
-  Hybrid - Message: 0 user(s)
-
-<n> users scanned.
-```
-
-* The license you assigned lists the five users from `data\users.csv`.
-* The other Hybrid licenses show `0 user(s)`.
-* `users scanned` is how many users in the organization the script checked.
-
-You can also send **List licenses (usage)** in Bruno again. `consumedUnits` for that calendar license is now `5`.
+The calendar license you assigned now shows `consumed : 5 / 19` and `5 user(s)`, followed by the five CSV users. The other Hybrid licenses show `0 user(s)`. If the count is still `0`, wait a minute and run it again.
 
 ## Checkpoint
 

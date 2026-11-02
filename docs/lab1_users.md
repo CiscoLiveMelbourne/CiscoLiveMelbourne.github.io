@@ -62,16 +62,7 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
 
 ### What you are doing in this section
 
-In Lab 0, Bruno used your **personal access token**. That token acts as you, the lab administrator, and expires in about 12 hours. For the rest of this lab you use the **Service App access token** you generated in Step 4. It acts as the Service App, has only the six scopes you approved, and is the kind of token you would use for real automation.
-
-You put the same Service App access token in two places, because the lab uses two tools:
-
-| Tool | Where the token goes | What uses it |
-| --- | --- | --- |
-| Bruno | The `access_token` secret in the **Lab** environment | Every Bruno request in Labs 1 to 4 |
-| VS Code | A file named `.env` in `Desktop\admin-api` | Every Python script in Labs 1 to 4 |
-
-At the end of this section, you check that each tool now acts as the Service App. Keep the developer.webex.com tab with the access token open until you finish this section.
+You replace the personal access token from Lab 0 with the Service App access token: in Bruno as the `access_token` secret, and in VS Code as a `.env` file. Keep the developer.webex.com tab with the token open until you finish.
 
 ### Part A - Bruno
 
@@ -89,15 +80,15 @@ You do not change any other variable. `test_domain` and `org_id` stay as you set
 
 1. In the Bruno left sidebar, expand **Webex Admin API Lab**, then expand **0. Setup**, and select **Who am I (/people/me)**.
 2. Select the arrow (**Send**) at the right end of the URL bar.
-3. In the response pane, check **displayName**. It is now **AdminAPI-Lab**, the Service App, instead of the lab administrator. This confirms Bruno is using the new token.
+3. In the response pane, check that **displayName** is now **AdminAPI-Lab**, the Service App.
 4. In the same **0. Setup** folder, select **List organizations** and select **Send**.
-5. In the response pane, confirm the list shows your lab organization and its **displayName**. This confirms the Service App is authorized for your organization.
+5. In the response pane, confirm the list shows your lab organization.
 
-The `id` in this response is in a different format from the Organization ID you copied from Control Hub. That is expected. Do not copy it into Bruno. Keep `org_id` as you set it in Lab 0; it is the only organization ID you need.
+The `id` in this response has a different format from the Control Hub Organization ID. That is expected; keep `org_id` as you set it in Lab 0.
 
 ### Part B - VS Code
 
-The Python scripts do not use Bruno. They read the token from a file named `.env` in the `admin-api` folder. You create that file from a template, then open the folder in VS Code and run a script that checks the token.
+The scripts read the token from a file named `.env` in the `admin-api` folder.
 
 **Create the `.env` file**
 
@@ -153,28 +144,13 @@ To run a command from this guide, select the copy icon on the code block, right-
     scripts\.venv\Scripts\python.exe scripts\00_check_token.py
     ```
 
-2. Under **Who am I**, check that **Name** is **AdminAPI-Lab**, the same result Bruno gave you. Under **Organizations this token can administer**, check that your lab organization's **displayName** is listed.
-
-If you see `WEBEX_ACCESS_TOKEN is not set` or a 401 error, see the troubleshooting table at the end of this lab.
-
-### What you have now
-
-* Bruno and the Python scripts both use the Service App access token.
-* Both tools showed **AdminAPI-Lab** as the identity, so they act as the Service App, not as you.
-* The personal access token from Lab 0 is no longer used anywhere in this lab.
-
-In the next section, you create users in bulk, first in Bruno and then with a script.
+2. Check that **Name** is **AdminAPI-Lab** and your lab organization is listed. Both tools now use the Service App token.
 
 ## Section 3 - Bulk create
 
 ### What you are doing in this section
 
-In Lab 0 you created one user with one call. To create many users at once, you use **SCIM 2.0 Bulk**, `POST /identity/scim/{orgId}/v2/Bulk`. One request carries a list of `operations`, and each operation creates one user.
-
-| Tool | Which users it creates | Where the list comes from |
-| --- | --- | --- |
-| Bruno | `labuser02` to `labuser06` | The request body in the collection |
-| VS Code | The five people in `data\users.csv`, such as `barbara.liskov` | The CSV file |
+You create several users in one **SCIM 2.0 Bulk** request: `labuser02` to `labuser06` in Bruno, and the five people in `data\users.csv` with the script.
 
 ### Part A - Bruno
 
@@ -187,17 +163,11 @@ In Lab 0 you created one user with one call. To create many users at once, you u
 
 **Read the response**
 
-The response has one entry in its operations list for each user in the request. For each entry:
-
-* `bulkId` matches the `bulkId` in the request, such as `user-002`, so you can tell which user it is.
-* `status` is `201`, which means **Created**.
-* `location` is the address of the new user. The last part of it is the new user's id.
-
-If one user fails, the whole request stops at that user, because the body sets `failOnErrors` to `1`. A `409` status means that user already exists.
+There is one entry per user. `status` `201` means **Created**, and the end of `location` is the new user's id. `409` means the user already exists.
 
 ### Part B - VS Code
 
-`data\users.csv` lists names only, such as `barbara.liskov`. The script finds your pod's domain from the users already in the organization, adds it to each name, and prints it as **Lab domain**. It matches <copy><w class="TestDomain">your verified domain</w></copy>. You do not edit the CSV.
+`data\users.csv` lists names only. The script adds your pod's domain, <copy><w class="TestDomain">your verified domain</w></copy>, so you do not edit the CSV.
 
 **Run the bulk create**
 
@@ -208,39 +178,15 @@ If one user fails, the whole request stops at that user, because the body sets `
     scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim
     ```
 
-    * `create` runs the create step of the users script.
-    * `--csv data\users.csv` is the list of users to create.
-    * `--mode scim` sends all users in one SCIM bulk request, the same API as Bruno.
-
 **Read the output**
 
-```text
-Lab domain: your-domain
-Creating 5 users via scim...
-  [201] barbara.liskov@your-domain -> <new user id>
-  ...
-
-Done. 5 users created. Tracked in created_users.json.
-```
-
-* **Lab domain** is the domain the script added to each name in the CSV.
-* Each line in brackets is one user: the status, the email address, and the new user id. `201` means **Created**.
-* The last line says how many users were created. The script records their ids in `data\created_users.json`. Section 4 updates exactly these users, and cleanup deletes exactly these users, so no other user in the organization is touched.
+Each user prints a line such as `[201] barbara.liskov@your-domain -> <id>`, and the last line is `Done. 5 users created.` The script records these users in `data\created_users.json`, so later steps update and delete only them.
 
 ## Section 4 - Update user titles in Bruno and VS Code
 
 ### What you are doing in this section
 
-You now have lab users in your organization. In this section you change an attribute on them, the job **title**, and set it to `Cisco Live Attendee`. Both tools use the People API call `PUT /v1/people/{id}`, which updates one person at a time.
-
-Each tool updates a different set of users:
-
-| Tool | Which users it updates | How it finds them |
-| --- | --- | --- |
-| Bruno | The one user you created in Lab 0, `labuser01` | The `person_id` variable that **Create user** saved in the Lab environment |
-| VS Code | Every user the script created in Section 3 | The ids the script recorded in `data\created_users.json` |
-
-`PUT` replaces the whole person record, not only the fields you send. That is why each request sends the user's email address and names together with the new title. If it sent only the title, the other fields would be cleared.
+You set the title `Cisco Live Attendee` with `PUT /v1/people/{id}`: on `labuser01` in Bruno, and on the Section 3 script users in VS Code. `PUT` replaces the whole record, so each request also sends the user's email and names.
 
 ### Part A - Bruno
 
@@ -252,16 +198,11 @@ Each tool updates a different set of users:
 4. Select the **Body** tab. The JSON contains the email address, display name, first name, last name, and `"title": "Cisco Live Attendee"`. You do not need to change anything.
 5. Select the arrow (**Send**) at the right end of the URL bar.
 
-**Check the result**
+**Read the response**
 
-1. In the response pane on the right, check that the status is **200**.
-2. In the response body, find `title`. It is now `Cisco Live Attendee`.
-
-If the status is **404**, `person_id` is empty or belongs to a user that no longer exists. Run **Create user (People API)** from Lab 0 again, then send **Update user (People API)** again.
+The status is **200** and `title` is now `Cisco Live Attendee`. A **404** means `person_id` is empty; run **Create user (People API)** from Lab 0 again.
 
 ### Part B - VS Code
-
-The script does the same update as Bruno, but for every user it created in Section 3. For each user, it first reads the current record, then sends the full record back with the new title, so no other field is lost.
 
 **Open the terminal**
 
@@ -277,26 +218,11 @@ The script does the same update as Bruno, but for every user it created in Secti
     scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py update --title "Cisco Live Attendee"
     ```
 
-2. Right-click in the terminal to paste the command, then press `Enter`.
+2. Right-click in the terminal to paste the command, then press `Enter`. Keep the quotes around the title.
 
-    The command has three parts:
+**Read the output**
 
-    * `scripts\.venv\Scripts\python.exe` is the Python installed for this lab.
-    * `scripts\01_bulk_users.py update` runs the update step of the users script.
-    * `--title "Cisco Live Attendee"` is the title to set. Keep the quotes, because the title contains spaces.
-
-3. Wait for the prompt to come back. The output looks like this, with one `updated` line for each user from Section 3:
-
-    ```text
-    Updating 5 users (title -> 'Cisco Live Attendee')...
-      updated barbara.liskov@your-domain
-      ...
-    Done.
-    ```
-
-    The number of users and their email addresses depend on `data\users.csv` and on your lab domain.
-
-If you see `Nothing to update - run 'create' first.`, the script has no users recorded in `data\created_users.json`. Go back to Section 3, run the VS Code bulk create command, and then run this update again.
+The script prints one `updated <email>` line per user, then `Done.` If it prints `Nothing to update - run 'create' first.`, run the Section 3 VS Code command first.
 
 **Check the result in Control Hub**
 
@@ -305,14 +231,6 @@ If you see `Nothing to update - run 'create' first.`, the script has no users re
 3. Search for one of the email addresses from the script output, and select that user to open their details.
 4. Check that the title is **Cisco Live Attendee**.
 5. Search for `labuser01` as well, and check that the Bruno update also set its title.
-
-### What you have now
-
-* `labuser01` has the title `Cisco Live Attendee`, set by Bruno.
-* Every user the script created in Section 3 has the same title, set by VS Code.
-* You saw that `PUT /v1/people/{id}` needs the full person record, and that the script reads each record before it updates it.
-
-Go through the checkpoint below before you start Lab 2.
 
 ## Checkpoint
 

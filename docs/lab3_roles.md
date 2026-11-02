@@ -8,7 +8,7 @@ List the administrator roles in Bruno first, then in VS Code. Assigning a role r
 
 ### What you are doing in this section
 
-Administrator roles, such as **Full Administrator** and **Read-only Administrator**, control what a person can do in Control Hub. Each role has a name and an id. To assign a role with the API, you need its id, so you first list the roles with `GET /v1/roles`.
+You list the administrator roles with `GET /v1/roles`. Each role has a name and the id you need to assign it.
 
 ### Part A - Bruno
 
@@ -17,12 +17,7 @@ Administrator roles, such as **Full Administrator** and **Read-only Administrato
 
 **Read the response**
 
-The status is **200**. The `items` list has one entry per role:
-
-* `name` is the role name you see in Control Hub, for example **Read-only Administrator**.
-* `id` is the role id. This is the value the People API stores in a person's `roles` list.
-
-Find **Read-only Administrator**. You assign it in Section 2.
+`items` has one entry per role, with its `name` and `id`. Find **Read-only Administrator**; you assign it in Section 2.
 
 ### Part B - VS Code
 
@@ -35,19 +30,13 @@ Find **Read-only Administrator**. You assign it in Section 2.
 
 **Read the output**
 
-The script prints a table sorted by name, with **Role name** on the left and **Role ID** on the right. The last line, `<n> roles available.`, says how many roles the organization has. The names and ids match the Bruno response.
+A table of **Role name** and **Role ID** that matches Bruno, ending with `<n> roles available.`
 
 ## Section 2 - Assign a role
 
 ### What you are doing in this section
 
-You give the **Read-only Administrator** role to `labuser01`, the user you created in Lab 0. The script does three things:
-
-1. It finds the id of the role by its name.
-2. It reads the user's current record, including the roles the user already has.
-3. It adds the new role and sends the full record back with `PUT /v1/people/{id}`, so the user keeps any roles they already had.
-
-This is VS Code only.
+You give **Read-only Administrator** to `labuser01`. The script adds the role to the user's existing roles and saves them with `PUT /v1/people/{id}`. This is VS Code only.
 
 ### Run the assignment
 
@@ -57,20 +46,11 @@ This is VS Code only.
     scripts\.venv\Scripts\python.exe scripts\03_roles.py assign --email labuser01 --role "Read-only Administrator"
     ```
 
-    * `--email labuser01` is the user. You give only the name, and the script adds your lab domain.
-    * `--role "Read-only Administrator"` is the role name, exactly as the list shows it. Keep the quotes, because the name contains spaces.
+    The script adds your lab domain to `labuser01`. Keep the quotes around the role name.
 
 ### Read the output
 
-```text
-Lab domain: your-domain
-Assigned role 'Read-only Administrator' to labuser01@your-domain.
-  labuser01@your-domain now has 1 role(s).
-```
-
-* The first line is the domain the script added to `labuser01`.
-* The second line confirms the role was assigned.
-* The third line is the total number of roles the user now holds. It is `1` because `labuser01` had no roles before.
+`Assigned role 'Read-only Administrator' to labuser01@...` confirms the change, and `now has 1 role(s)` is the user's total number of roles.
 
 ### Check the result in Control Hub
 

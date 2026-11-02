@@ -8,12 +8,7 @@ Keep the Service App access token from Lab 1. List the same licenses in Bruno fi
 
 ### What you are doing in this section
 
-Every Webex organization has a set of licenses, such as Meetings, Messaging, Calling, and Hybrid Services. Each license has a fixed number of units, and each user who holds the license uses one unit. In this section you read that usage with one API call, `GET /v1/licenses`, in both tools:
-
-| Tool | What it shows |
-| --- | --- |
-| Bruno | The raw JSON response, exactly as the API returns it |
-| VS Code | The same data as a table, with free units and a status for each license |
+You read license usage with `GET /v1/licenses`: Bruno shows the raw JSON, and the script shows it as a table.
 
 ### Part A - Bruno
 
@@ -26,16 +21,7 @@ Every Webex organization has a set of licenses, such as Meetings, Messaging, Cal
 
 **Read the response**
 
-The status is **200**. The response body has an `items` list with one entry for each license in the organization. Each entry includes:
-
-| Field | What it tells you |
-| --- | --- |
-| `id` | The license id. Scripts use it to assign the license to a user. |
-| `name` | The license name, for example `Webex Meetings Suite` |
-| `totalUnits` | How many units the organization owns |
-| `consumedUnits` | How many units are assigned to users |
-
-Bruno does not calculate anything. To know how many units are free, you subtract `consumedUnits` from `totalUnits` yourself. The script does that for you in Part B.
+`items` has one entry per license, with `name`, `totalUnits` (units owned), and `consumedUnits` (units assigned to users).
 
 ### Part B - VS Code
 
@@ -57,29 +43,13 @@ Bruno does not calculate anything. To know how many units are free, you subtract
 
 **Read the output**
 
-The script prints a table with one row per license, sorted by name, and then a summary:
-
-| Column | What it tells you |
-| --- | --- |
-| **License** | The license name, the same as `name` in Bruno |
-| **Used** | Units assigned to users, the same as `consumedUnits` in Bruno |
-| **Total** | Units the organization owns, the same as `totalUnits` in Bruno |
-| **Free** | Units still available, calculated as Total minus Used |
-| **Status** | `ok`, `NEAR LIMIT (n%)` when the license is at least 90% used, or `OVER-ALLOCATED` when more units are used than owned |
-
-Under **Validation summary**, the script lists every license that needs attention. On a typical lab pod it reports **4 license(s) need attention**: the licenses that are 100% used, such as **Basic Messaging** with `19/19`. Your exact licenses and numbers depend on your pod.
-
-Compare a few rows with the Bruno response. The Used and Total numbers match, because both tools read the same API.
+**Used** and **Total** match Bruno, and **Free** is Total minus Used. **Status** is `NEAR LIMIT` when a license is at least 90% used. The **Validation summary** lists those licenses, typically **4** on a lab pod.
 
 ## Section 2 - Flag licenses near their limit
 
 ### What you are doing in this section
 
-The script decides what **NEAR LIMIT** means with a threshold. By default, it flags a license when it is at least **90%** used. You can change the threshold with the `--threshold` option, without changing the script. The value is a fraction, so `0.15` means 15%.
-
-In this section you run the same report with `--threshold 0.15`. The lab pods have low license usage, so a low threshold is needed to make the effect visible. In a production organization you would use a value such as `0.8` or `0.9` to get a warning before a license runs out.
-
-This is VS Code only. Bruno shows the raw numbers and does not apply a threshold.
+You rerun the report with `--threshold 0.15`, which flags licenses at 15% used instead of the default 90%. Lab pods have low usage, so a low value makes the change visible; in production you would use `0.8` or `0.9`. This is VS Code only.
 
 ### Run the report with a lower threshold
 
@@ -91,16 +61,7 @@ This is VS Code only. Bruno shows the raw numbers and does not apply a threshold
 
 ### Read the output
 
-Compare this output with the one from Section 1.
-
-* **Used**, **Total**, and **Free** are exactly the same. The data in the organization did not change.
-* The **Status** column changes for licenses that are between 15% and 90% used. For example, licenses with `8` used out of `50` (16%), such as **Advanced Messaging**, **Advanced Space Meetings**, **Real-Time Translations**, and **Webex Meetings Suite**, change from `ok` to `NEAR LIMIT (16%)`.
-* Licenses that are 100% used are flagged in both runs. Licenses with `0` used stay `ok`.
-* The **Validation summary** grows, for example from **4** to **8** licenses that need attention.
-
-Only the rule changed, not the data. This is the difference between the two tools: Bruno shows you what the API returns, and the script applies a policy that you choose on top of it.
-
-If the Status column does not change, your pod has no licenses between 15% and 90% used. That is a valid result. Record it and continue.
+The numbers are the same as Section 1; only the rule changed. Licenses at 8 of 50 (16%), such as **Webex Meetings Suite**, change from `ok` to `NEAR LIMIT (16%)`, and the summary grows from **4** to **8**. If nothing changes, your pod has no licenses between 15% and 90% used.
 
 ## Checkpoint
 
