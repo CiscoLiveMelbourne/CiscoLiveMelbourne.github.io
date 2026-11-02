@@ -6,5 +6,5 @@
 - Bruno does not include role assignment, Hybrid Calendar license assignment, or the hybrid-license assigned-user report. Use the Python scripts for those.
 - `run_lab.sh` uses `python` (not `python3`), does not activate `.venv`, and leaves cleanup to you.
 - `data/users.csv` lists names only. The scripts add the pod's domain, taken from the most common email domain among the organization's users. A full email in the CSV is used as it is.
-- SCIM Bulk requires `failOnErrors: 1` and the body field `operations`. The path takes the UUID inside the base64 `org_id`; Bruno and the scripts convert it for you. Every other call uses `org_id` as it is.
+- SCIM Bulk requires `failOnErrors: 1` and the body field `operations`. The path takes the organization ID from Control Hub, which is the `org_id` you set in Bruno. The scripts read it from the token for you.
 - Product behavior, scopes, and endpoint names must be revalidated against current Webex documentation before any non-lab use.

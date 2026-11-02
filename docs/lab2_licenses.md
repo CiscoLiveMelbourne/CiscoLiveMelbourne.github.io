@@ -46,7 +46,7 @@ You are ready for Lab 3 when:
 | Problem | Solution |
 | --- | --- |
 | 401 | Replace the Bruno secret and `WEBEX_ACCESS_TOKEN` with a new Service App access token. |
-| Empty `orgId` or a 400 on the query | `org_id` is not set. In Bruno, enter it in the Lab environment as in Lab 0 and select **Save**. Then, in the left sidebar under **0. Setup**, select **List organizations** and select **Send** to check it. |
+| Empty `orgId` or a 400 on the query | `org_id` is not set. In Bruno, enter the **Organization ID** from Control Hub in the Lab environment as in Lab 0, select **Save**, and send again. |
 | `WEBEX_ACCESS_TOKEN is not set` | Save `.env` in `Desktop\admin-api` and run the command from that folder. |
 
 Continue to [Lab 3](lab3_roles.md).

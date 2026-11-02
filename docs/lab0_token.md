@@ -40,7 +40,7 @@ In the response pane on the right, **displayName** is the lab administrator. The
 
 The response status is **200**. Bruno saves `person_id` from the response. You will use that value when you update or delete this user in Lab 1.
 
-5. In the browser, open Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"}. In the left menu, under **Management**, select **Users**, and confirm the new person is listed.
+To check the result, open Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"} in the browser. In the left menu, under **Management**, select **Users**, and confirm the new person is listed.
 
 ## Checkpoint
 

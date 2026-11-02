@@ -54,26 +54,55 @@ The next page shows the **Client ID** and the **Client Secret**.
 3. In the organization list, select your lab organization. It is the only organization listed.
 4. Paste the client secret from Notepad into the **Client Secret** field.
 5. Select **Generate tokens**.
-6. Copy **access_token**. The value contains `_P0A1_` and lasts about 14 days.
+6. Two tokens appear: **access_token** and **refresh_token**. Select the copy icon next to **access_token**, not refresh_token. The access token lasts about 14 days.
 
 Leave the refresh token on that page. It does not go in Bruno or in `.env`. You can close the Notepad window with the client secret without saving it.
 
-## Section 2 - Put the Service App token in both tools
+## Section 2 - Put the Service App token in Bruno and VS Code
 
-**Bruno**
+### What you are doing in this section
 
-1. In Bruno, open the environment list at the top right and select **Configure**. With **Lab** selected, select the **Secrets** tab.
-2. In the `access_token` row, replace **Value** with the Service App access token, then select **Save**.
-3. In the Bruno left sidebar, under **Webex Admin API Lab → 0. Setup**, select **Who am I (/people/me)** and select **Send**. **displayName** is now the Service App, not the lab administrator.
+In Lab 0, Bruno used your **personal access token**. That token acts as you, the lab administrator, and expires in about 12 hours. For the rest of this lab you use the **Service App access token** you generated in Step 4. It acts as the Service App, has only the six scopes you approved, and is the kind of token you would use for real automation.
+
+You put the same Service App access token in two places, because the lab uses two tools:
+
+| Tool | Where the token goes | What uses it |
+| --- | --- | --- |
+| Bruno | The `access_token` secret in the **Lab** environment | Every Bruno request in Labs 1 to 4 |
+| VS Code | A file named `.env` in `Desktop\admin-api` | Every Python script in Labs 1 to 4 |
+
+At the end of this section, you check that each tool now acts as the Service App. Keep the developer.webex.com tab with the access token open until you finish this section.
+
+### Part A - Bruno
+
+**Replace the token**
+
+1. Switch to **Bruno**.
+2. Open the environment list at the top right of the window and select **Configure**. The **Environments** tab opens, with **Lab** selected in the left list.
+3. Select the **Secrets** tab.
+4. In the `access_token` row, select the **Value** field and delete the personal access token from Lab 0.
+5. Paste the Service App access token into **Value**, then select **Save**.
+
+You do not change any other variable. `test_domain` and `org_id` stay as you set them in Lab 0.
+
+**Check that Bruno now acts as the Service App**
+
+1. In the Bruno left sidebar, expand **Webex Admin API Lab**, then expand **0. Setup**, and select **Who am I (/people/me)**.
+2. Select the arrow (**Send**) at the right end of the URL bar.
+3. In the response pane, check **displayName**. It is now **AdminAPI-Lab**, the Service App, instead of the lab administrator. This confirms Bruno is using the new token.
 4. In the same **0. Setup** folder, select **List organizations** and select **Send**.
-5. In the response pane, select the **Tests** tab. Both tests pass, which confirms that the `org_id` you entered in Lab 0 is this organization.
+5. In the response pane, confirm the list shows your lab organization and its **displayName**. This confirms the Service App is authorized for your organization.
 
-`org_id` is the only organization id you need. Bulk create converts it to the UUID form that SCIM uses when you send it.
+The `id` in this response is in a different format from the Organization ID you copied from Control Hub. That is expected. Do not copy it into Bruno. Keep `org_id` as you set it in Lab 0; it is the only organization ID you need.
 
-**VS Code**
+### Part B - VS Code
 
-1. Open `Desktop\admin-api\env-template.txt` in Notepad.
-2. Fill only the `WEBEX_ACCESS_TOKEN` line with the same Service App access token, on one line, with no quotes. The scripts read the organization id from the token.
+The Python scripts do not use Bruno. They read the token from a file named `.env` in the `admin-api` folder. You create that file from a template, then open the folder in VS Code and run a script that checks the token.
+
+**Create the `.env` file**
+
+1. On the lab desktop, open **File Explorer** and go to **Desktop → admin-api**.
+2. Right-click `env-template.txt` and select **Open with → Notepad**. The file looks like this:
 
     ```text
     WEBEX_ACCESS_TOKEN=
@@ -82,10 +111,59 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
     WEBEX_SCIM_BASE=https://webexapis.com/identity/scim
     ```
 
-3. Choose **File → Save As**. Set **Save as type** to **All Files** and **Encoding** to **UTF-8**. Save the file as `.env` in `Desktop\admin-api`. Do not choose **Unicode**.
-4. In VS Code, choose **File → Open Folder** and open `Desktop\admin-api` if it is not already open.
-5. Select the interpreter `scripts\.venv\Scripts\python.exe`.
-6. Open a terminal. It opens in `admin-api`. Run every command in this lab from that folder.
+3. Select the end of the `WEBEX_ACCESS_TOKEN=` line and paste the Service App access token directly after the `=`. Keep it on one line, with no spaces and no quotes. Do not change the other lines.
+
+    You add only the token. The scripts read the organization ID from the token, so `.env` has no organization ID line.
+
+4. In Notepad, select **File → Save As**, and set these fields:
+    * **Folder**: `Desktop\admin-api`, the same folder as the template
+    * **File name**: `.env`
+    * **Save as type**: **All Files (\*.\*)**. If you leave **Text Documents**, Notepad saves `.env.txt` and the scripts cannot find it.
+    * **Encoding**: **UTF-8**. Do not choose **Unicode**.
+5. Select **Save**, then close Notepad. `Desktop\admin-api` now has a file named `.env` next to `env-template.txt`.
+
+!!! warning "Treat `.env` like a password"
+    `.env` now contains a live access token. Do not open it during a screen share, attach it, or paste it into chat.
+
+**Open the lab folder in VS Code**
+
+1. Open **VS Code**.
+2. If the **Explorer** panel on the left already shows **ADMIN-API** at the top, the folder is open. Go to the next step. Otherwise, select **File → Open Folder**, select `Desktop\admin-api`, and select **Select Folder**. If VS Code asks whether you trust the authors of the files, select **Yes, I trust the authors**.
+3. In the **Explorer** panel, confirm you can see the `scripts` and `data` folders and the `.env` file.
+
+**Open a terminal**
+
+All the Python commands in this lab run in the VS Code terminal.
+
+1. In the VS Code menu bar at the top, select **Terminal → New Terminal**. You can also press `` Ctrl+` ``, the backtick key to the left of `1`.
+2. A terminal panel opens at the bottom of the VS Code window. The prompt shows the current folder and ends with `Desktop\admin-api>`.
+3. If the prompt shows a different folder, type the command below and press `Enter`:
+
+    ```bat
+    cd $HOME\Desktop\admin-api
+    ```
+
+To run a command from this guide, select the copy icon on the code block, right-click in the terminal to paste, and press `Enter`. Run every command in this lab from this terminal, in the `admin-api` folder. Each command starts with `scripts\.venv\Scripts\python.exe`, the Python that is already installed for this lab, so you do not need to install or select anything.
+
+**Check that the scripts now act as the Service App**
+
+1. In the terminal, run:
+
+    ```bat
+    scripts\.venv\Scripts\python.exe scripts\00_check_token.py
+    ```
+
+2. Under **Who am I**, check that **Name** is **AdminAPI-Lab**, the same result Bruno gave you. Under **Organizations this token can administer**, check that your lab organization's **displayName** is listed.
+
+If you see `WEBEX_ACCESS_TOKEN is not set` or a 401 error, see the troubleshooting table at the end of this lab.
+
+### What you have now
+
+* Bruno and the Python scripts both use the Service App access token.
+* Both tools showed **AdminAPI-Lab** as the identity, so they act as the Service App, not as you.
+* The personal access token from Lab 0 is no longer used anywhere in this lab.
+
+In the next section, you create users in bulk, first in Bruno and then with a script.
 
 ## Section 3 - Bulk create
 
@@ -132,8 +210,8 @@ This updates only the people listed in `data\created_users.json`. In Control Hub
 You are ready for Lab 2 when:
 
 * [ ] **Who am I** in Bruno shows the Service App
-* [ ] **List organizations** tests pass, so Bruno `org_id` is this organization
-* [ ] `.env` is saved as UTF-8 with the Service App access token
+* [ ] **List organizations** shows your lab organization
+* [ ] `.env` is saved as UTF-8 with the Service App access token, and `00_check_token.py` shows **AdminAPI-Lab**
 * [ ] Bulk create returned `201` in Bruno and in VS Code
 * [ ] Update set the title in both tools
 
@@ -151,8 +229,7 @@ You delete these users at the end of the lab, in the [Conclusion](conclusion.md)
 | `WEBEX_ACCESS_TOKEN is not set` | `.env` is missing, saved as `.env.txt`, or saved outside `admin-api`. Save it again with **Save as type: All Files**. |
 | `could not read the organization id from the token` | `.env` has the wrong token. Paste the Service App access token into `WEBEX_ACCESS_TOKEN` and save `.env`. |
 | SCIM 400 on `Operations` | Rename that field to `operations`. |
-| **List organizations** test `org_id in the Lab environment is this organization` fails | `org_id` is empty or mistyped. Copy the `id` from the List organizations response into `org_id`, save the environment, and send again. |
-| SCIM rejects the organization id | Run **0. Setup → List organizations** and check that both tests pass, then send bulk create again. |
+| SCIM rejects the organization id | In Bruno, open the Lab environment (**Configure**) and check that `org_id` is the **Organization ID** from Control Hub (**Management → Account → Info**). Select **Save**, then send bulk create again. |
 | CSV file not found | The VS Code terminal is not in `Desktop\admin-api`. |
 | 409 on create | That email already exists. Use a different address in the CSV or in the Bruno body. |
 
