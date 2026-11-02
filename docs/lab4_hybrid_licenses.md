@@ -10,9 +10,9 @@ No Hybrid Services setup is needed. The Hybrid Calendar license is part of the o
 
 **Bruno**
 
-1. Open **2. Licenses → List licenses**.
-2. Select **Send**.
-3. In the response, find licenses whose names include **Hybrid**.
+1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **2. Licenses** folder and select **List licenses (usage)**.
+2. Select the arrow (**Send**) at the right end of the URL bar.
+3. In the response pane on the right, find licenses whose names include **Hybrid**.
 
 The query is the same `GET /v1/licenses?orgId={{org_id}}` you ran in Lab 2.
 

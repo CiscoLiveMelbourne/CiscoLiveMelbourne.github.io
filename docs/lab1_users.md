@@ -12,7 +12,7 @@ You play two roles here: the developer who creates the app, and the full adminis
 
 1. Open [developer.webex.com](https://developer.webex.com){:target="_blank"} and confirm you are signed in as <copy><w class="WbxUser">your lab admin</w></copy>. Use the same browser session as Lab 0.
 2. Select your avatar at the top right, then select **My Webex Apps**.
-3. Select **Create a New App**, then select **Create a Service App**.
+3. The lab administrator has no apps yet, so the **What would you like to configure?** page opens. Find the **Service App** card and select **Onboard Service App**.
 4. Fill in the form:
     * **App name**: `AdminAPI-Lab`. You search for this name in Control Hub in Step 3.
     * **Icon**: select any of the default icons
@@ -62,10 +62,11 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
 
 **Bruno**
 
-1. Replace the **Lab** secret `access_token` with the Service App access token, then save the environment.
-2. Run **0. Setup → Who am I** again. **displayName** is now the Service App, not the lab administrator.
-3. Run **0. Setup → List organizations**.
-4. Open the **Tests** tab of the response. Both tests pass, which confirms that the `org_id` you entered in Lab 0 is this organization.
+1. In Bruno, open the environment list at the top right and select **Configure**. With **Lab** selected, select the **Secrets** tab.
+2. In the `access_token` row, replace **Value** with the Service App access token, then select **Save**.
+3. In the Bruno left sidebar, under **Webex Admin API Lab → 0. Setup**, select **Who am I (/people/me)** and select **Send**. **displayName** is now the Service App, not the lab administrator.
+4. In the same **0. Setup** folder, select **List organizations** and select **Send**.
+5. In the response pane, select the **Tests** tab. Both tests pass, which confirms that the `org_id` you entered in Lab 0 is this organization.
 
 `org_id` is the only organization id you need. Bulk create converts it to the UUID form that SCIM uses when you send it.
 
@@ -90,10 +91,10 @@ Leave the refresh token on that page. It does not go in Bruno or in `.env`. You 
 
 **Bruno**
 
-1. Open **1. Users → Bulk create users**.
-2. Confirm the URL is `{{scim_base}}/{{org_id}}/v2/Bulk`.
-3. Confirm the JSON list is named `operations`. It creates `labuser02` to `labuser06`. `labuser01` is the user you created in Lab 0, so it is not in this list.
-4. Select **Send**.
+1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **1. Users** folder and select **Bulk create users (SCIM 2.0)**.
+2. Confirm the URL bar shows `{{scim_base}}/{{org_id}}/v2/Bulk`.
+3. Select the **Body** tab and confirm the JSON list is named `operations`. It creates `labuser02` to `labuser06`. `labuser01` is the user you created in Lab 0, so it is not in this list.
+4. Select the arrow (**Send**) at the right end of the URL bar.
 
 Each user in the response has a status starting with `201`.
 
@@ -113,8 +114,8 @@ Each created user prints a status starting with `201`. The script records the ne
 
 **Bruno**
 
-1. Open **1. Users → Update user**.
-2. Select **Send**.
+1. In the Bruno left sidebar, under **Webex Admin API Lab → 1. Users**, select **Update user (People API)**.
+2. Select the arrow (**Send**) at the right end of the URL bar.
 
 The request uses `person_id` saved by **Create user** in Lab 0 and sets the title `Cisco Live Attendee`.
 

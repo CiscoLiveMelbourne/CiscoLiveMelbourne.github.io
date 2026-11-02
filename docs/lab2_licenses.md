@@ -8,9 +8,9 @@ Keep the Service App access token from Lab 1. List the same licenses in Bruno fi
 
 **Bruno**
 
-1. Open **2. Licenses → List licenses**.
-2. Confirm the URL includes `orgId={{org_id}}`. `org_id` is the value that starts with `Y2lz`.
-3. Select **Send**.
+1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **2. Licenses** folder and select **List licenses (usage)**.
+2. Confirm the URL bar includes `orgId={{org_id}}`. `org_id` is the organization ID you set in the Lab environment in Lab 0.
+3. Select the arrow (**Send**) at the right end of the URL bar.
 
 Each license includes `name`, `totalUnits`, and `consumedUnits`.
 
@@ -46,7 +46,7 @@ You are ready for Lab 3 when:
 | Problem | Solution |
 | --- | --- |
 | 401 | Replace the Bruno secret and `WEBEX_ACCESS_TOKEN` with a new Service App access token. |
-| Empty `orgId` or a 400 on the query | `org_id` is not set. Enter it in the Lab environment as in Lab 0, save, and run **0. Setup → List organizations** to check it. |
+| Empty `orgId` or a 400 on the query | `org_id` is not set. In Bruno, enter it in the Lab environment as in Lab 0 and select **Save**. Then, in the left sidebar under **0. Setup**, select **List organizations** and select **Send** to check it. |
 | `WEBEX_ACCESS_TOKEN is not set` | Save `.env` in `Desktop\admin-api` and run the command from that folder. |
 
 Continue to [Lab 3](lab3_roles.md).

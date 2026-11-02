@@ -8,8 +8,8 @@ List the administrator roles in Bruno first, then in VS Code. Assigning a role r
 
 **Bruno**
 
-1. Open **3. Roles → List roles**.
-2. Select **Send**.
+1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **3. Roles** folder and select **List available roles**.
+2. Select the arrow (**Send**) at the right end of the URL bar.
 
 The call is `GET /v1/roles`. Find **Read-only Administrator**. You assign it in Section 2.
 

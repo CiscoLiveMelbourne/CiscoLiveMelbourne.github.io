@@ -44,7 +44,15 @@ Use only the lab organization. Do not connect these tokens or scripts to your pr
 
 ## Lab access
 
-The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your proctor gives you the administrator email, password, and verified email domain. Enter them below. They stay in this browser only.
+The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your proctor gives you the administrator email, password, and verified email domain. You copy the organization ID from Control Hub yourself. Enter all four values below. They stay in this browser only.
+
+### Find your organization ID
+
+1. On the lab desktop, open a browser and go to [admin.webex.com](https://admin.webex.com){:target="_blank"}.
+2. Sign in with the Webex admin email and password from your proctor.
+3. In the left menu, under **Management**, select **Account**.
+4. On the **Info** tab, find **Organization ID** and select the copy icon next to it.
+5. Paste the value into the **Organization ID** field below.
 
 <div class="grid" markdown>
 
@@ -72,7 +80,7 @@ The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your pro
 >
 > Verified email domain: <copy><w class="TestDomain">Provided by proctor</w></copy>
 >
-> Organization ID: <copy><w class="OrgId">Provided by proctor</w></copy>
+> Organization ID: <copy><w class="OrgId">Copied from Control Hub</w></copy>
 
 </div>
 
