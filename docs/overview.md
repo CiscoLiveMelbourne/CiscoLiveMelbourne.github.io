@@ -44,7 +44,26 @@ Use only the lab organization. Do not connect these tokens or scripts to your pr
 
 ## Lab access
 
-The lab desktop already has Bruno, VS Code, and the `admin-api` folder. Your proctor gives you the administrator email, password, and verified email domain. You copy the organization ID from Control Hub yourself. Enter all four values below. They stay in this browser only.
+Your pod is a Cisco dCloud Windows desktop with a browser, **Bruno**, **VS Code**, and the prepared `Desktop\admin-api` folder. You do not need to install any software. Use **Google Chrome on your own computer** for both this lab guide and the dCloud Web RDP session.
+
+!!! danger "Do not end your dCloud session during the lab"
+    **Do not select "Logout and End Session" in dCloud Expo.**
+
+    That tears down your assigned lab pod, including the prepared Windows desktop and its Webex organization, and bringing it back can take longer than this lab. If your Web RDP tab closes or disconnects, return to Expo and select **Open** for your existing **wkst1** session. If you cannot reconnect, ask a proctor for help; do not end or restart the session yourself.
+
+1. In Chrome on your own computer, open the Cisco Live dCloud Expo lab.
+2. Enter your email address and accept the lab terms. Expo assigns your session ID; keep it available in case you need a proctor's help.
+3. Select **Open** to launch the browser-based RDP session for **wkst1**, using the Windows user **cholland**.
+4. Your proctor gives you the Webex administrator email, password, and verified email domain for this pod. Use them only inside the lab desktop.
+5. Keep this lab guide open in a **second Chrome tab on your own computer**. Copy commands and values from that tab and paste them into Bruno, VS Code, or Notepad in the RDP tab. You do not need to open the guide inside the lab desktop. Open Control Hub and developer.webex.com **inside** the lab desktop when the guide asks you to sign in.
+
+If Expo access or sign-in fails, give your session ID to a proctor. Do not enter the administrator password anywhere except the Webex sign-in pages on the lab desktop and the form below, which stays in your browser.
+
+If pasting into the RDP session does not work, use Guacamole's clipboard panel or ask a proctor. See the [Troubleshooting Matrix](reference/troubleshooting.md).
+
+### Enter your lab values
+
+Enter the administrator email, password, and verified email domain from your proctor below, and the organization ID you copy from Control Hub. The guide then fills these values into the steps for you. They stay in this browser only.
 
 ### Find your organization ID
 
