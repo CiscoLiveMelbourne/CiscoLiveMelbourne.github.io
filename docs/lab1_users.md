@@ -167,43 +167,152 @@ In the next section, you create users in bulk, first in Bruno and then with a sc
 
 ## Section 3 - Bulk create
 
-**Bruno**
+### What you are doing in this section
+
+In Lab 0 you created one user with one call. To create many users at once, you use **SCIM 2.0 Bulk**, `POST /identity/scim/{orgId}/v2/Bulk`. One request carries a list of `operations`, and each operation creates one user.
+
+| Tool | Which users it creates | Where the list comes from |
+| --- | --- | --- |
+| Bruno | `labuser02` to `labuser06` | The request body in the collection |
+| VS Code | The five people in `data\users.csv`, such as `barbara.liskov` | The CSV file |
+
+### Part A - Bruno
+
+**Send the request**
 
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **1. Users** folder and select **Bulk create users (SCIM 2.0)**.
 2. Confirm the URL bar shows `{{scim_base}}/{{org_id}}/v2/Bulk`.
 3. Select the **Body** tab and confirm the JSON list is named `operations`. It creates `labuser02` to `labuser06`. `labuser01` is the user you created in Lab 0, so it is not in this list.
 4. Select the arrow (**Send**) at the right end of the URL bar.
 
-Each user in the response has a status starting with `201`.
+**Read the response**
 
-**VS Code**
+The response has one entry in its operations list for each user in the request. For each entry:
+
+* `bulkId` matches the `bulkId` in the request, such as `user-002`, so you can tell which user it is.
+* `status` is `201`, which means **Created**.
+* `location` is the address of the new user. The last part of it is the new user's id.
+
+If one user fails, the whole request stops at that user, because the body sets `failOnErrors` to `1`. A `409` status means that user already exists.
+
+### Part B - VS Code
 
 `data\users.csv` lists names only, such as `barbara.liskov`. The script finds your pod's domain from the users already in the organization, adds it to each name, and prints it as **Lab domain**. It matches <copy><w class="TestDomain">your verified domain</w></copy>. You do not edit the CSV.
 
-In the terminal, run:
+**Run the bulk create**
 
-```bat
-scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim
+1. In the VS Code terminal, check that the prompt ends with `Desktop\admin-api>`.
+2. Copy the command below, right-click in the terminal to paste it, and press `Enter`:
+
+    ```bat
+    scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim
+    ```
+
+    * `create` runs the create step of the users script.
+    * `--csv data\users.csv` is the list of users to create.
+    * `--mode scim` sends all users in one SCIM bulk request, the same API as Bruno.
+
+**Read the output**
+
+```text
+Lab domain: your-domain
+Creating 5 users via scim...
+  [201] barbara.liskov@your-domain -> <new user id>
+  ...
+
+Done. 5 users created. Tracked in created_users.json.
 ```
 
-Each created user prints a status starting with `201`. The script records the new ids in `data\created_users.json`, so cleanup deletes only these users.
+* **Lab domain** is the domain the script added to each name in the CSV.
+* Each line in brackets is one user: the status, the email address, and the new user id. `201` means **Created**.
+* The last line says how many users were created. The script records their ids in `data\created_users.json`. Section 4 updates exactly these users, and cleanup deletes exactly these users, so no other user in the organization is touched.
 
-## Section 4 - Update
+## Section 4 - Update user titles in Bruno and VS Code
 
-**Bruno**
+### What you are doing in this section
 
-1. In the Bruno left sidebar, under **Webex Admin API Lab → 1. Users**, select **Update user (People API)**.
-2. Select the arrow (**Send**) at the right end of the URL bar.
+You now have lab users in your organization. In this section you change an attribute on them, the job **title**, and set it to `Cisco Live Attendee`. Both tools use the People API call `PUT /v1/people/{id}`, which updates one person at a time.
 
-The request uses `person_id` saved by **Create user** in Lab 0 and sets the title `Cisco Live Attendee`.
+Each tool updates a different set of users:
 
-**VS Code**
+| Tool | Which users it updates | How it finds them |
+| --- | --- | --- |
+| Bruno | The one user you created in Lab 0, `labuser01` | The `person_id` variable that **Create user** saved in the Lab environment |
+| VS Code | Every user the script created in Section 3 | The ids the script recorded in `data\created_users.json` |
 
-```bat
-scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py update --title "Cisco Live Attendee"
-```
+`PUT` replaces the whole person record, not only the fields you send. That is why each request sends the user's email address and names together with the new title. If it sent only the title, the other fields would be cleared.
 
-This updates only the people listed in `data\created_users.json`. In Control Hub, open one of them and confirm the title.
+### Part A - Bruno
+
+**Send the update**
+
+1. Switch to **Bruno**.
+2. In the left sidebar, expand **Webex Admin API Lab**, then expand **1. Users**, and select **Update user (People API)**. It opens in a new tab.
+3. Look at the URL bar. It shows `PUT {{base_url}}/people/{{person_id}}`. Bruno fills `{{person_id}}` with the id of `labuser01`, which **Create user** saved in Lab 0.
+4. Select the **Body** tab. The JSON contains the email address, display name, first name, last name, and `"title": "Cisco Live Attendee"`. You do not need to change anything.
+5. Select the arrow (**Send**) at the right end of the URL bar.
+
+**Check the result**
+
+1. In the response pane on the right, check that the status is **200**.
+2. In the response body, find `title`. It is now `Cisco Live Attendee`.
+
+If the status is **404**, `person_id` is empty or belongs to a user that no longer exists. Run **Create user (People API)** from Lab 0 again, then send **Update user (People API)** again.
+
+### Part B - VS Code
+
+The script does the same update as Bruno, but for every user it created in Section 3. For each user, it first reads the current record, then sends the full record back with the new title, so no other field is lost.
+
+**Open the terminal**
+
+1. Switch to **VS Code**.
+2. If the terminal panel from Section 2 is still open at the bottom of the window, select it. Otherwise, select **Terminal → New Terminal** in the menu bar, or press `` Ctrl+` ``.
+3. Check that the prompt ends with `Desktop\admin-api>`. If it does not, run `cd $HOME\Desktop\admin-api`.
+
+**Run the update**
+
+1. Select the copy icon at the top right of the code block below to copy the command:
+
+    ```bat
+    scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py update --title "Cisco Live Attendee"
+    ```
+
+2. Right-click in the terminal to paste the command, then press `Enter`.
+
+    The command has three parts:
+
+    * `scripts\.venv\Scripts\python.exe` is the Python installed for this lab.
+    * `scripts\01_bulk_users.py update` runs the update step of the users script.
+    * `--title "Cisco Live Attendee"` is the title to set. Keep the quotes, because the title contains spaces.
+
+3. Wait for the prompt to come back. The output looks like this, with one `updated` line for each user from Section 3:
+
+    ```text
+    Updating 5 users (title -> 'Cisco Live Attendee')...
+      updated barbara.liskov@your-domain
+      ...
+    Done.
+    ```
+
+    The number of users and their email addresses depend on `data\users.csv` and on your lab domain.
+
+If you see `Nothing to update - run 'create' first.`, the script has no users recorded in `data\created_users.json`. Go back to Section 3, run the VS Code bulk create command, and then run this update again.
+
+**Check the result in Control Hub**
+
+1. Switch to the browser tab with Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"}.
+2. In the left menu, under **Management**, select **Users**.
+3. Search for one of the email addresses from the script output, and select that user to open their details.
+4. Check that the title is **Cisco Live Attendee**.
+5. Search for `labuser01` as well, and check that the Bruno update also set its title.
+
+### What you have now
+
+* `labuser01` has the title `Cisco Live Attendee`, set by Bruno.
+* Every user the script created in Section 3 has the same title, set by VS Code.
+* You saw that `PUT /v1/people/{id}` needs the full person record, and that the script reads each record before it updates it.
+
+Go through the checkpoint below before you start Lab 2.
 
 ## Checkpoint
 
