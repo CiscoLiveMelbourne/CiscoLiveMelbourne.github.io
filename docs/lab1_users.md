@@ -20,17 +20,17 @@ You play two roles here: the developer who creates the app, and the full adminis
     ![What would you like to configure page with Onboard Service App highlighted](assets/developer-onboard-service-app.png)
 
 4. Fill in the form:
-    * **App name**: `AdminAPI-Lab`. You search for this name in Control Hub in Step 3.
+    * **App name**: <copy>`AdminAPI-Lab`</copy>. You search for this name in Control Hub in Step 3.
     * **Icon**: select any of the default icons
-    * **Description**: `Cisco Live lab: bulk users, licenses, and roles`
+    * **Description**: <copy>`Cisco Live lab: bulk users, licenses, and roles`</copy>
     * **Contact email**: <copy><w class="WbxUser">your lab admin</w></copy>
 5. Under **Scopes**, tick these six boxes and nothing else:
-    * `spark-admin:people_write`
-    * `spark-admin:people_read`
-    * `spark-admin:licenses_read`
-    * `spark-admin:roles_read`
-    * `spark-admin:organizations_read`
-    * `identity:people_rw`
+    * <copy>`spark-admin:people_write`</copy>
+    * <copy>`spark-admin:people_read`</copy>
+    * <copy>`spark-admin:licenses_read`</copy>
+    * <copy>`spark-admin:roles_read`</copy>
+    * <copy>`spark-admin:organizations_read`</copy>
+    * <copy>`identity:people_rw`</copy>
 6. Scroll to the bottom and select **Add Service App**.
 
 ### Step 2 - Save the client secret
@@ -45,17 +45,26 @@ The next page shows the **Client ID** and the **Client Secret**.
 ### Step 3 - Authorize the app in Control Hub
 
 1. On the same app page, select **Request Admin Authorization**. This makes the app visible in your organization's Control Hub.
+
+    ![AdminAPI-Lab app page with Request admin authorization highlighted](assets/developer-request-admin-auth.png)
+
 2. In a new browser tab, open [admin.webex.com](https://admin.webex.com){:target="_blank"} and sign in as <copy><w class="WbxUser">your lab admin</w></copy>.
 3. In the left menu, under **Management**, select **Apps**.
 4. Select the **Service Apps** tab.
 5. Scroll to **Other service apps**. New apps that are waiting for approval are listed there, not under the apps already authorized.
 6. Find **AdminAPI-Lab** and select it. Type the name in the search box if the list is long.
-7. In the panel that opens, check that the scopes match the six you ticked.
-8. Select **Authorize**, then select **Save**. The app now shows as authorized.
+
+    ![Control Hub Apps, Service Apps, Other service apps tab with AdminAPI-Lab highlighted](assets/control-hub-other-service-apps.png)
+
+7. In the panel that opens, check that the scopes match the six you ticked. Webex also lists `spark:kms`, which it adds to every app.
+8. Turn on the **Authorized** toggle, then select **Save** at the bottom of the panel. The app now shows as authorized.
+
+    ![AdminAPI-Lab panel in Control Hub with the Authorized toggle and Save button highlighted](assets/control-hub-authorize-app.jpg)
+
 
 ### Step 4 - Generate the access token
 
-1. Go back to the developer.webex.com tab and refresh the app page.
+1. Go back to the developer.webex.com tab and **refresh the app page**.
 2. Scroll down to **Org Authorizations**.
 3. In the organization list, select your lab organization. It is the only organization listed.
 4. Paste the client secret from Notepad into the **Client Secret** field.
