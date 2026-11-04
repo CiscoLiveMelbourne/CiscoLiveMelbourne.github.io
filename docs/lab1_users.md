@@ -59,7 +59,7 @@ The next page shows the **Client ID** and the **Client Secret**.
 7. In the panel that opens, check that the scopes match the six you ticked. Webex also lists `spark:kms`, which it adds to every app.
 8. Turn on the **Authorized** toggle, then select **Save** at the bottom of the panel. The app now shows as authorized.
 
-    ![AdminAPI-Lab panel in Control Hub with the Authorized toggle and Save button highlighted](assets/control-hub-authorize-app.jpg)
+    ![AdminAPI-Lab panel in Control Hub with the Authorized toggle and Save button highlighted](assets/control-hub-authorize-app.png)
 
 
 ### Step 4 - Generate the access token
@@ -69,6 +69,9 @@ The next page shows the **Client ID** and the **Client Secret**.
 3. In the organization list, select your lab organization. It is the only organization listed.
 4. Paste the client secret from Notepad into the **Client Secret** field.
 5. Select **Generate tokens**.
+
+    ![Org Authorizations with the lab organization selected and the Client Secret field and Generate tokens button highlighted](assets/developer-generate-tokens.png)
+
 6. Two tokens appear: **access_token** and **refresh_token**. Select the copy icon next to **access_token**, not refresh_token. The access token lasts about 14 days.
 
 Leave the refresh token on that page. It does not go in Bruno or in `.env`. You can close the Notepad window with the client secret without saving it.

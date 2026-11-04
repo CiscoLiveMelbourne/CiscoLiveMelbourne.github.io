@@ -51,7 +51,7 @@ The collection is already on the lab desktop.
 3. Select the **Body** tab and confirm the email address ends with `@{{test_domain}}`.
 4. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
 
-    ![Bruno Create user request with the 1. Users folder, Send button, and 200 OK status highlighted](assets/bruno-create-user.jpg)
+    ![Bruno Create user request with the 1. Users folder, Send button, and 200 OK status highlighted](assets/bruno-create-user.png)
 
 **Read the response**
 
