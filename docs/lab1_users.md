@@ -104,6 +104,9 @@ You do not change any other variable. `test_domain` and `org_id` stay as you set
 1. In the Bruno left sidebar, expand **Webex Admin API Lab**, then expand **0. Setup**, and select **Who am I (/people/me)**.
 2. Select the arrow (**Send**) at the right end of the URL bar.
 3. In the response pane, check that **displayName** is now **AdminAPI-Lab**, the Service App.
+
+    ![Bruno Who am I response with displayName AdminAPI-Lab highlighted](assets/bruno-who-am-i-service-app.png)
+
 4. In the same **0. Setup** folder, select **List organizations** and select **Send**.
 5. In the response pane, confirm the list shows your lab organization.
 
