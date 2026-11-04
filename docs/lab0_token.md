@@ -12,6 +12,9 @@ The collection is already on the lab desktop.
 2. Look at the left sidebar of Bruno. If **Webex Admin API Lab** is already listed, the collection is already open. Select it and go to step 3. If it is not listed, select **Open Collection** and choose the folder `Desktop\admin-api\bruno\Webex Admin API Lab`.
 3. In Bruno, open the environment list at the top right of the window. On the **Collection** tab, select **Lab**.
 4. Open the same environment list again and select **Configure**. The **Environments** tab opens, with **Lab** selected in the left list. You set every lab variable here, on the **Variables** tab.
+
+    ![Bruno Lab environment Variables tab with the org_id and test_domain rows highlighted](assets/bruno-lab-variables.png)
+
 5. In the `test_domain` row, set **Value** to <copy><w class="TestDomain">your verified domain</w></copy>. Do not type `@`.
 6. In the `org_id` row, set **Value** to <copy><w class="OrgId">your organization ID</w></copy>. Select the copy icon to copy the value you entered on the [Overview](overview.md) page. Every request that needs the organization uses this one variable.
 7. Select **Save**.
@@ -20,7 +23,13 @@ The collection is already on the lab desktop.
 
 1. On the lab desktop, open a browser and go to [developer.webex.com](https://developer.webex.com){:target="_blank"}. Sign in as <copy><w class="WbxUser">your lab admin</w></copy>.
 2. Select your avatar at the top right of the page. The menu shows your **Bearer** token, which is your personal access token. Select the copy icon next to it. The token lasts about 12 hours.
+
+    ![developer.webex.com avatar menu with the Bearer token copy icon highlighted](assets/developer-bearer-token.png)
+
 3. Go back to Bruno. In the **Environments** tab, with **Lab** selected, select the **Secrets** tab.
+
+    ![Bruno Lab environment Secrets tab with the access_token row highlighted](assets/bruno-lab-secrets.png)
+
 4. In the `access_token` row, paste the token into **Value**, then select **Save**.
 
 ## Section 3 - Who am I

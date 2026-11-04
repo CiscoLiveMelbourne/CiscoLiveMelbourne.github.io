@@ -77,6 +77,9 @@ Enter the administrator email, password, and verified email domain from `Session
 2. Sign in with the Webex admin email and password from `Session_Info.txt` on the desktop.
 3. In the left menu, under **Management**, select **Account**.
 4. On the **Info** tab, find **Organization ID** and select the copy icon next to it.
+
+    ![Control Hub Account Info tab with the Organization ID copy icon highlighted](assets/control-hub-org-id.png)
+
 5. Paste the value into the **Organization ID** field below.
 
 <div class="grid" markdown>
