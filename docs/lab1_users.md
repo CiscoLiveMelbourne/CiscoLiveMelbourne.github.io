@@ -12,19 +12,25 @@ You play two roles here: the developer who creates the app, and the full adminis
 
 1. Open [developer.webex.com](https://developer.webex.com){:target="_blank"} and confirm you are signed in as <copy><w class="WbxUser">your lab admin</w></copy>. Use the same browser session as Lab 0.
 2. Select your avatar at the top right, then select **My Webex Apps**.
+
+    ![developer.webex.com avatar menu with My Webex Apps highlighted](assets/developer-my-webex-apps.png)
+
 3. The lab administrator has no apps yet, so the **What would you like to configure?** page opens. Find the **Service App** card and select **Onboard Service App**.
+
+    ![What would you like to configure page with Onboard Service App highlighted](assets/developer-onboard-service-app.png)
+
 4. Fill in the form:
     * **App name**: `AdminAPI-Lab`. You search for this name in Control Hub in Step 3.
     * **Icon**: select any of the default icons
     * **Description**: `Cisco Live lab: bulk users, licenses, and roles`
     * **Contact email**: <copy><w class="WbxUser">your lab admin</w></copy>
 5. Under **Scopes**, tick these six boxes and nothing else:
-    * `spark-admin:people_read`
     * `spark-admin:people_write`
-    * `identity:people_rw`
+    * `spark-admin:people_read`
     * `spark-admin:licenses_read`
     * `spark-admin:roles_read`
     * `spark-admin:organizations_read`
+    * `identity:people_rw`
 6. Scroll to the bottom and select **Add Service App**.
 
 ### Step 2 - Save the client secret

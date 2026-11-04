@@ -38,6 +38,8 @@ The collection is already on the lab desktop.
 2. Select the request **Who am I (/people/me)**. It opens in a new tab.
 3. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
 
+    ![Bruno Who am I request with the 0. Setup folder and Send button highlighted, and a 200 OK response](assets/bruno-who-am-i.png)
+
 **Read the response**
 
 `GET /v1/people/me` returns the identity behind the token. The status is **200**, and `displayName` and `emails` show the lab administrator. A **401** means the token is missing or expired.
@@ -49,11 +51,15 @@ The collection is already on the lab desktop.
 3. Select the **Body** tab and confirm the email address ends with `@{{test_domain}}`.
 4. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
 
+    ![Bruno Create user request with the 1. Users folder, Send button, and 200 OK status highlighted](assets/bruno-create-user.jpg)
+
 **Read the response**
 
 `POST /v1/people` creates `labuser01` (Ada Lovelace). The status is **200** and the body is the new user. Bruno saves its `id` as `person_id` for the update in Lab 1 and the delete in the Conclusion.
 
 To check the result, open Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"} in the browser. In the left menu, under **Management**, select **Users**, and confirm the new person is listed.
+
+![Control Hub Users list with the new user Ada Lovelace (labuser01) highlighted](assets/control-hub-new-user.png)
 
 ## Checkpoint
 
