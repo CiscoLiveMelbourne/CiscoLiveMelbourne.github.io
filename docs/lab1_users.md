@@ -102,7 +102,7 @@ You do not change any other variable. `test_domain` and `org_id` stay as you set
 **Check that Bruno now acts as the Service App**
 
 1. In the Bruno left sidebar, expand **Webex Admin API Lab**, then expand **0. Setup**, and select **Who am I (/people/me)**.
-2. Select the arrow (**Send**) at the right end of the URL bar.
+2. Select **Send** at the right end of the URL bar.
 3. In the response pane, check that **displayName** is now **AdminAPI-Lab**, the Service App.
 
     ![Bruno Who am I response with displayName AdminAPI-Lab highlighted](assets/bruno-who-am-i-service-app.png)
@@ -137,6 +137,9 @@ The scripts read the token from a file named `.env` in the `admin-api` folder.
     * **File name**: `.env`
     * **Save as type**: **All Files (\*.\*)**. If you leave **Text Documents**, Notepad saves `.env.txt` and the scripts cannot find it.
     * **Encoding**: **UTF-8**. Do not choose **Unicode**.
+
+    ![Notepad Save as dialog in Desktop\admin-api with File name .env, Save as type All files, and Encoding UTF-8](assets/notepad-save-env.png)
+
 5. Select **Save**, then close Notepad. `Desktop\admin-api` now has a file named `.env` next to `env-template.txt`.
 
 !!! warning "Treat `.env` like a password"
@@ -145,15 +148,20 @@ The scripts read the token from a file named `.env` in the `admin-api` folder.
 **Open the lab folder in VS Code**
 
 1. Open **VS Code**.
-2. If the **Explorer** panel on the left already shows **ADMIN-API** at the top, the folder is open. Go to the next step. Otherwise, select **File → Open Folder**, select `Desktop\admin-api`, and select **Select Folder**. If VS Code asks whether you trust the authors of the files, select **Yes, I trust the authors**.
+2. If the **Explorer** panel on the left already shows **admin-api** at the top, the folder is open. Go to the next step. Otherwise, select **File → Open Folder**, select `Desktop\admin-api`, and select **Select Folder**.
 3. In the **Explorer** panel, confirm you can see the `scripts` and `data` folders and the `.env` file.
+
+    ![VS Code Explorer showing the admin-api folder with the data and scripts folders and the .env file](assets/vscode-explorer-env.png)
 
 **Open a terminal**
 
 All the Python commands in this lab run in the VS Code terminal.
 
-1. In the VS Code menu bar at the top, select **Terminal → New Terminal**. You can also press `` Ctrl+` ``, the backtick key to the left of `1`.
+1. In the VS Code menu bar at the top, select **Terminal → New Terminal**. If the window is narrow and you do not see **Terminal**, select **...** first. You can also press `` Ctrl+` ``, the backtick key to the left of `1`.
 2. A terminal panel opens at the bottom of the VS Code window. The prompt shows the current folder and ends with `Desktop\admin-api>`.
+
+    ![VS Code menu with ... then Terminal then New Terminal selected, and the terminal panel open at Desktop\admin-api](assets/vscode-new-terminal.png)
+
 3. If the prompt shows a different folder, type the command below and press `Enter`:
 
     ```bat
@@ -170,9 +178,13 @@ To run a command from this guide, select the copy icon on the code block, right-
     scripts\.venv\Scripts\python.exe scripts\00_check_token.py
     ```
 
-2. Check that **Name** is **AdminAPI-Lab** and your lab organization is listed. Both tools now use the Service App token.
+2. Check the output:
+    * Under **== Who am I ==**, **Name** is **AdminAPI-Lab**. Both tools now use the Service App token.
+    * Under **== Organizations this token can administer ==**, your lab organization is listed. Its **displayName** is the organization name, for example `Atlas_Test_...`, not the app name.
 
-## Section 3 - Bulk create
+    ![VS Code terminal output of 00_check_token.py with Name AdminAPI-Lab under Who am I and the lab organization listed below](assets/vscode-check-token.png)
+
+## Section 3 - Bulk create users
 
 ### What you are doing in this section
 
@@ -185,17 +197,19 @@ You create several users in one **SCIM 2.0 Bulk** request: `labuser02` to `labus
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **1. Users** folder and select **Bulk create users (SCIM 2.0)**.
 2. Confirm the URL bar shows `{{scim_base}}/{{org_id}}/v2/Bulk`.
 3. Select the **Body** tab and confirm the JSON list is named `operations`. It creates `labuser02` to `labuser06`. `labuser01` is the user you created in Lab 0, so it is not in this list.
-4. Select the arrow (**Send**) at the right end of the URL bar.
+4. Select **Send** at the right end of the URL bar.
+
+    ![Bruno Bulk create users request sent, with 200 OK and a 201 status for each user in the response](assets/bruno-bulk-create.png)
 
 **Read the response**
 
-There is one entry per user. `status` `201` means **Created**, and the end of `location` is the new user's id. `409` means the user already exists.
+The response panel shows **200 OK** for the whole request. Below it there is one entry per user. `status` `201` means **Created**, and the end of `location` is the new user's id. `409` means the user already exists.
 
 ### Part B - VS Code
 
 `data\users.csv` lists names only. The script adds your pod's domain, <copy><w class="TestDomain">your verified domain</w></copy>, so you do not edit the CSV.
 
-**Run the bulk create**
+**Run bulk create users**
 
 1. In the VS Code terminal, check that the prompt ends with `Desktop\admin-api>`.
 2. Copy the command below, right-click in the terminal to paste it, and press `Enter`:
@@ -204,9 +218,11 @@ There is one entry per user. `status` `201` means **Created**, and the end of `l
     scripts\.venv\Scripts\python.exe scripts\01_bulk_users.py create --csv data\users.csv --mode scim
     ```
 
+    ![VS Code terminal output of 01_bulk_users.py create: Lab domain, a 201 line for each of the five users, and Done. 5 users created](assets/vscode-bulk-create.png)
+
 **Read the output**
 
-Each user prints a line such as `[201] barbara.liskov@your-domain -> <id>`, and the last line is `Done. 5 users created.` The script records these users in `data\created_users.json`, so later steps update and delete only them.
+The first line is **Lab domain**, your pod's domain. Each user then prints a line such as `[201] barbara.liskov@your-domain -> <id>`, and the last line is `Done. 5 users created. Tracked in created_users.json.` The script records these users in `data\created_users.json`, so later steps update and delete only them.
 
 ## Section 4 - Update user titles in Bruno and VS Code
 
@@ -222,11 +238,13 @@ You set the title `Cisco Live Attendee` with `PUT /v1/people/{id}`: on `labuser0
 2. In the left sidebar, expand **Webex Admin API Lab**, then expand **1. Users**, and select **Update user (People API)**. It opens in a new tab.
 3. Look at the URL bar. It shows `PUT {{base_url}}/people/{{person_id}}`. Bruno fills `{{person_id}}` with the id of `labuser01`, which **Create user** saved in Lab 0.
 4. Select the **Body** tab. The JSON contains the email address, display name, first name, last name, and `"title": "Cisco Live Attendee"`. You do not need to change anything.
-5. Select the arrow (**Send**) at the right end of the URL bar.
+5. Select **Send** at the right end of the URL bar.
+
+    ![Bruno Update user (People API) request sent, with 200 OK and the updated user in the response](assets/bruno-update-user.png)
 
 **Read the response**
 
-The status is **200** and `title` is now `Cisco Live Attendee`. A **404** means `person_id` is empty; run **Create user (People API)** from Lab 0 again.
+The status is **200 OK**. Scroll down in the response to see that `title` is now `Cisco Live Attendee`. A **404** means `person_id` is empty; run **Create user (People API)** from Lab 0 again.
 
 ### Part B - VS Code
 
@@ -246,16 +264,21 @@ The status is **200** and `title` is now `Cisco Live Attendee`. A **404** means 
 
 2. Right-click in the terminal to paste the command, then press `Enter`. Keep the quotes around the title.
 
+    ![VS Code terminal output of 01_bulk_users.py update: an updated line for each of the five users, then Done.](assets/vscode-update-titles.png)
+
 **Read the output**
 
-The script prints one `updated <email>` line per user, then `Done.` If it prints `Nothing to update - run 'create' first.`, run the Section 3 VS Code command first.
+The script prints `Updating 5 users (title -> 'Cisco Live Attendee')...`, then one `updated <email>` line per user, then `Done.` If it prints `Nothing to update - run 'create' first.`, run the Section 3 VS Code command first.
 
 **Check the result in Control Hub**
 
 1. Switch to the browser tab with Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"}.
 2. In the left menu, under **Management**, select **Users**.
 3. Search for one of the email addresses from the script output, and select that user to open their details.
-4. Check that the title is **Cisco Live Attendee**.
+4. Select the **Profile** tab and check that **Title** is **Cisco Live Attendee**.
+
+    ![Control Hub user Profile tab for Margaret Hamilton with Title set to Cisco Live Attendee](assets/control-hub-user-title.png)
+
 5. Search for `labuser01` as well, and check that the Bruno update also set its title.
 
 ## Checkpoint
@@ -265,7 +288,7 @@ You are ready for Lab 2 when:
 * [ ] **Who am I** in Bruno shows the Service App
 * [ ] **List organizations** shows your lab organization
 * [ ] `.env` is saved as UTF-8 with the Service App access token, and `00_check_token.py` shows **AdminAPI-Lab**
-* [ ] Bulk create returned `201` in Bruno and in VS Code
+* [ ] Bulk create users returned `201` for each user in Bruno and in VS Code
 * [ ] Update set the title in both tools
 
 You delete these users at the end of the lab, in the [Conclusion](conclusion.md). Keep them for now; Lab 3 assigns a role to one of them, and Lab 4 assigns them the Hybrid Calendar license.

@@ -15,7 +15,7 @@ Hybrid Services are licenses, so you use the same `GET /v1/licenses` call as Lab
 ### Part A - Bruno
 
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **2. Licenses** folder and select **List licenses (usage)**.
-2. Select the arrow (**Send**) at the right end of the URL bar.
+2. Select **Send** at the right end of the URL bar.
 3. In the response pane on the right, find the licenses whose `name` starts with **Hybrid**.
 
 **Read the response**

@@ -36,7 +36,7 @@ The collection is already on the lab desktop.
 
 1. In the Bruno left sidebar, expand **Webex Admin API Lab**, then expand the **0. Setup** folder.
 2. Select the request **Who am I (/people/me)**. It opens in a new tab.
-3. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
+3. Select **Send** at the right end of the URL bar, or press `Ctrl+Enter`.
 
     ![Bruno Who am I request with the 0. Setup folder and Send button highlighted, and a 200 OK response](assets/bruno-who-am-i.png)
 
@@ -49,7 +49,7 @@ The collection is already on the lab desktop.
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **1. Users** folder.
 2. Select the request **Create user (People API)**.
 3. Select the **Body** tab and confirm the email address ends with `@{{test_domain}}`.
-4. Select the arrow (**Send**) at the right end of the URL bar, or press `Ctrl+Enter`.
+4. Select **Send** at the right end of the URL bar, or press `Ctrl+Enter`.
 
     ![Bruno Create user request with the 1. Users folder, Send button, and 200 OK status highlighted](assets/bruno-create-user.png)
 

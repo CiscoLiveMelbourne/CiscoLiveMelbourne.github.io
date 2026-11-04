@@ -13,7 +13,7 @@ You list the administrator roles with `GET /v1/roles`. Each role has a name and 
 ### Part A - Bruno
 
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **3. Roles** folder and select **List available roles**.
-2. Select the arrow (**Send**) at the right end of the URL bar.
+2. Select **Send** at the right end of the URL bar.
 
 **Read the response**
 

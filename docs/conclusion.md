@@ -9,7 +9,7 @@ Clean up so the reservation does not keep lab users. Bruno first, then VS Code.
 **Bruno**
 
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **1. Users** folder and select **Delete user (lifecycle)**.
-2. Select the arrow (**Send**) at the right end of the URL bar. This deletes the one user you created in Lab 0, `labuser01`, stored in `person_id`.
+2. Select **Send** at the right end of the URL bar. This deletes the one user you created in Lab 0, `labuser01`, stored in `person_id`.
 
 The status is **204 No Content** with an empty body, which means the user was deleted.
 

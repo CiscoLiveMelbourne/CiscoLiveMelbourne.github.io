@@ -17,11 +17,13 @@ You read license usage with `GET /v1/licenses`: Bruno shows the raw JSON, and th
 1. Switch to **Bruno**.
 2. In the left sidebar, expand **Webex Admin API Lab**, then expand **2. Licenses**, and select **List licenses (usage)**.
 3. Confirm the URL bar includes `orgId={{org_id}}`. `org_id` is the organization ID you set in the Lab environment in Lab 0.
-4. Select the arrow (**Send**) at the right end of the URL bar.
+4. Select **Send** at the right end of the URL bar.
+
+    ![Bruno List licenses (usage) request sent, with 200 OK and license entries in the response](assets/bruno-list-licenses.png)
 
 **Read the response**
 
-`items` has one entry per license, with `name`, `totalUnits` (units owned), and `consumedUnits` (units assigned to users).
+The status is **200 OK**. `items` has one entry per license, with `name`, `totalUnits` (units owned), and `consumedUnits` (units assigned to users).
 
 ### Part B - VS Code
 
@@ -41,6 +43,8 @@ You read license usage with `GET /v1/licenses`: Bruno shows the raw JSON, and th
 
 2. Right-click in the terminal to paste the command, then press `Enter`.
 
+    ![VS Code terminal output of 02_license_usage.py: license table and a Validation summary with 4 licenses that need attention](assets/vscode-license-usage.png)
+
 **Read the output**
 
 **Used** and **Total** match Bruno, and **Free** is Total minus Used. **Status** is `NEAR LIMIT` when a license is at least 90% used. The **Validation summary** lists those licenses, typically **4** on a lab pod.
@@ -58,6 +62,8 @@ You rerun the report with `--threshold 0.15`, which flags licenses at 15% used i
     ```bat
     scripts\.venv\Scripts\python.exe scripts\02_license_usage.py --threshold 0.15
     ```
+
+    ![VS Code terminal output of 02_license_usage.py --threshold 0.15: Webex Meetings Suite at NEAR LIMIT (16%) and 8 licenses in the Validation summary](assets/vscode-license-threshold.png)
 
 ### Read the output
 
