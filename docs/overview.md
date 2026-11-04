@@ -60,7 +60,7 @@ Your pod is a Cisco dCloud Windows desktop with a browser, **Bruno**, **VS Code*
     !!! important "Use wkst1 only"
         Do every step of this lab on **wkst1** as `dcloud\cholland`. You do not need to open **ad1**, **mail1**, or **wkst2**.
 
-4. On the wkst1 desktop, open `session_info.txt`. It has the Webex administrator email, password, and verified email domain for this pod. Use them only inside the lab desktop.
+4. On the wkst1 desktop, open `Session_Info.txt`. It has the Webex administrator email, password, and verified email domain for this pod. Use them only inside the lab desktop.
 5. Keep this lab guide open in a **second Chrome tab on your own computer**. Copy commands and values from that tab and paste them into Bruno, VS Code, or Notepad in the RDP tab. You do not need to open the guide inside the lab desktop. Open Control Hub and developer.webex.com **inside** the lab desktop when the guide asks you to sign in.
 
 If Expo access or sign-in fails, give your session ID to a proctor. Do not enter the administrator password anywhere except the Webex sign-in pages on the lab desktop and the form below, which stays in your browser.
@@ -69,12 +69,12 @@ If pasting into the RDP session does not work, use Guacamole's clipboard panel o
 
 ### Enter your lab values
 
-Enter the administrator email, password, and verified email domain from `session_info.txt` on the wkst1 desktop below, and the organization ID you copy from Control Hub. The guide then fills these values into the steps for you. They stay in this browser only.
+Enter the administrator email, password, and verified email domain from `Session_Info.txt` on the wkst1 desktop below, and the organization ID you copy from Control Hub. The guide then fills these values into the steps for you. They stay in this browser only.
 
 ### Find your organization ID
 
 1. On the lab desktop, open a browser and go to [admin.webex.com](https://admin.webex.com){:target="_blank"}.
-2. Sign in with the Webex admin email and password from `session_info.txt` on the desktop.
+2. Sign in with the Webex admin email and password from `Session_Info.txt` on the desktop.
 3. In the left menu, under **Management**, select **Account**.
 4. On the **Info** tab, find **Organization ID** and select the copy icon next to it.
 5. Paste the value into the **Organization ID** field below.
