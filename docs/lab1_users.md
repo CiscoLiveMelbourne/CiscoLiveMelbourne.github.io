@@ -74,6 +74,9 @@ The next page shows the **Client ID** and the **Client Secret**.
 
 6. Two tokens appear: **access_token** and **refresh_token**. Select the copy icon next to **access_token**, not refresh_token. The access token lasts about 14 days.
 
+    ![Generated tokens with the access_token row and its Copy link highlighted](assets/developer-access-token.png)
+
+
 Leave the refresh token on that page. It does not go in Bruno or in `.env`. You can close the Notepad window with the client secret without saving it.
 
 ## Section 2 - Put the Service App token in Bruno and VS Code
@@ -91,6 +94,8 @@ You replace the personal access token from Lab 0 with the Service App access tok
 3. Select the **Secrets** tab.
 4. In the `access_token` row, select the **Value** field and delete the personal access token from Lab 0.
 5. Paste the Service App access token into **Value**, then select **Save**.
+
+    ![Bruno environment list with Collection, Lab, and Configure highlighted, and the Secrets tab showing the access_token row](assets/bruno-replace-token.png)
 
 You do not change any other variable. `test_domain` and `org_id` stay as you set them in Lab 0.
 
