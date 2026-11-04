@@ -207,7 +207,18 @@ The response panel shows **200 OK** for the whole request. Below it there is one
 
 ### Part B - VS Code
 
-`data\users.csv` lists names only. The script adds your pod's domain, <copy><w class="TestDomain">your verified domain</w></copy>, so you do not edit the CSV.
+**Look at the CSV**
+
+The script creates the users listed in `data\users.csv`.
+
+1. In the VS Code **Explorer** panel, expand the `data` folder and select `users.csv`. It opens in the editor.
+
+    ![VS Code with data\users.csv open, showing the email, firstName, lastName, and displayName columns for the five users](assets/vscode-users-csv.png)
+
+2. The file has one row per user, with the columns `email`, `firstName`, `lastName`, and `displayName`. There are five users: Barbara Liskov, Linus Torvalds, Margaret Hamilton, Tim Berners-Lee, and Radia Perlman.
+3. The `email` column has names only, such as `barbara.liskov`. The script adds your pod's domain, <copy><w class="TestDomain">your verified domain</w></copy>, so you do not edit the CSV.
+
+These five users are the ones you update in Section 4 and license in Lab 4.
 
 **Run bulk create users**
 

@@ -31,15 +31,17 @@ A typical pod has **Hybrid - Exchange Calendar**, **Hybrid - Google Calendar**, 
     scripts\.venv\Scripts\python.exe scripts\04_hybrid_licenses.py
     ```
 
+    ![VS Code terminal output of 04_hybrid_licenses.py: three Hybrid licenses, each with its id and consumed 0 / 19](assets/vscode-hybrid-licenses.png)
+
 **Read the output**
 
-The same Hybrid licenses as Bruno, each with its `id` and `consumed` as used / total, such as `0 / 19`. `No Hybrid Services licenses found in this org.` is also a valid result.
+The same Hybrid licenses as Bruno, each with its `id` and `consumed` as used / total, such as `0 / 19`. The last line suggests `--show-users`; you run that in Section 3. `No Hybrid Services licenses found in this org.` is also a valid result.
 
 ## Section 2 - Assign the Hybrid Calendar license
 
 ### What you are doing in this section
 
-You assign the Hybrid Calendar license to the five `data\users.csv` users with `PATCH /v1/licenses/users`. You run it with `--dry-run` first to preview, then without it to assign. This is VS Code only.
+You assign the Hybrid Calendar license to the five users from `data\users.csv` that you created in Lab 1 with `PATCH /v1/licenses/users`. You run it with `--dry-run` first to preview, then without it to assign. This is VS Code only.
 
 ### Run a dry run
 
@@ -48,6 +50,8 @@ You assign the Hybrid Calendar license to the five `data\users.csv` users with `
     ```bat
     scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py --dry-run
     ```
+
+    ![VS Code terminal output of 05_assign_hybrid_calendar.py --dry-run: License Hybrid - Exchange Calendar, would assign for each of the five users, and Would assign: 5](assets/vscode-hybrid-dry-run.png)
 
 2. Read the output. **License** is the calendar license it will use; if the pod has two, the script picks the first. Each user shows `would assign`, and the summary is `Would assign: 5`. Nothing has changed yet.
 
@@ -58,6 +62,8 @@ You assign the Hybrid Calendar license to the five `data\users.csv` users with `
     ```bat
     scripts\.venv\Scripts\python.exe scripts\05_assign_hybrid_calendar.py
     ```
+
+    ![VS Code terminal output of 05_assign_hybrid_calendar.py: assigned for each of the five users, and Assigned: 5](assets/vscode-hybrid-assign.png)
 
 2. Read the output. Each user now shows `assigned`, and the summary is `Assigned: 5`. Running it again is safe; users show `already has it`.
 
@@ -73,9 +79,22 @@ You check Section 2 by listing who holds each Hybrid license.
     scripts\.venv\Scripts\python.exe scripts\04_hybrid_licenses.py --show-users
     ```
 
+    ![VS Code terminal output of 04_hybrid_licenses.py --show-users: Hybrid - Exchange Calendar at 5 / 19 with the five CSV users listed](assets/vscode-hybrid-show-users.png)
+
 ### Read the output
 
 The calendar license you assigned now shows `consumed : 5 / 19` and `5 user(s)`, followed by the five CSV users. The other Hybrid licenses show `0 user(s)`. If the count is still `0`, wait a minute and run it again.
+
+### Check the result in Control Hub
+
+1. In Control Hub at [admin.webex.com](https://admin.webex.com){:target="_blank"}, under **Management**, select **Users**.
+2. Search for one of the CSV users, such as `linus.torvalds`, and select the user to open their details.
+3. Select the **Hybrid Services** tab. Under **Calendar service**, check that **Allow calendar service** is turned on.
+
+    ![Control Hub user Hybrid Services tab for Linus Torvalds with Allow calendar service turned on](assets/control-hub-hybrid-calendar.png)
+
+    !!! note "Ignore Pending - Service Not Setup"
+        **Status** shows **Pending - Service Not Setup** because Hybrid Calendar is not set up in this lab pod. This lab only assigns the license, so you can ignore this status.
 
 ## Checkpoint
 
@@ -86,6 +105,7 @@ You are ready for the conclusion when:
 * [ ] The dry run showed `would assign` for the CSV users
 * [ ] VS Code assigned the Hybrid Calendar license to the CSV users
 * [ ] `--show-users` lists the CSV users under the Hybrid Calendar license
+* [ ] Control Hub shows **Allow calendar service** turned on for a CSV user
 
 ## Troubleshooting
 

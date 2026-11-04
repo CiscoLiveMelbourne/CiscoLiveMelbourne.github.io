@@ -2,7 +2,7 @@
 
 **Time: 32-40 min**
 
-List the administrator roles in Bruno first, then in VS Code. Assigning a role runs in VS Code only, because the Bruno collection has no assign request.
+List the administrator roles in Bruno first, then list users by role in VS Code. Assigning a role runs in VS Code only, because the Bruno collection has no assign request.
 
 ## Section 1 - List roles
 
@@ -15,9 +15,11 @@ You list the administrator roles with `GET /v1/roles`. Each role has a name and 
 1. In the Bruno left sidebar, under **Webex Admin API Lab**, expand the **3. Roles** folder and select **List available roles**.
 2. Select **Send** at the right end of the URL bar.
 
+    ![Bruno List available roles request sent, with 200 OK and the role names and ids in the response](assets/bruno-list-roles.png)
+
 **Read the response**
 
-`items` has one entry per role, with its `name` and `id`. Find **Read-only Administrator**; you assign it in Section 2.
+The status is **200 OK**. `items` has one entry per role, with its `name` and `id`. Find **Read-only Administrator**; you assign it in Section 2.
 
 ### Part B - VS Code
 
@@ -25,12 +27,14 @@ You list the administrator roles with `GET /v1/roles`. Each role has a name and 
 2. Copy the command below, right-click in the terminal to paste it, and press `Enter`:
 
     ```bat
-    scripts\.venv\Scripts\python.exe scripts\03_roles.py list
+    scripts\.venv\Scripts\python.exe scripts\03_roles.py users
     ```
+
+    ![VS Code terminal output of 03_roles.py users: Full Administrator with one email, then No admin role with the lab user emails](assets/vscode-roles-users.png)
 
 **Read the output**
 
-A table of **Role name** and **Role ID** that matches Bruno, ending with `<n> roles available.`
+The script groups users by administrator role. Each role name is followed by the number of users and their email addresses. Users with no administrator role are under **No admin role**. The last line is `<n> users scanned.`
 
 ## Section 2 - Assign a role
 
@@ -62,7 +66,7 @@ You give **Read-only Administrator** to `labuser01`. The script adds the role to
 
 You are ready for Lab 4 when:
 
-* [ ] Bruno and VS Code both listed the roles
+* [ ] Bruno listed the roles, and VS Code listed users by role
 * [ ] VS Code assigned **Read-only Administrator** to `labuser01`, and Control Hub shows it
 
 ## Troubleshooting
@@ -70,7 +74,7 @@ You are ready for Lab 4 when:
 | Problem | Solution |
 | --- | --- |
 | `No user found with email` | That user must already exist. Run **Create user (People API)** from Lab 0 first. If you typed a full email, its domain must be <copy><w class="TestDomain">your verified domain</w></copy>. |
-| `Role '...' not found` | The role name is mistyped. Run the `list` command and copy the name exactly. |
+| `Role '...' not found` | The role name is mistyped. In Bruno, send **List available roles** and copy the name exactly. |
 | 403 on assign | The Service App needs `spark-admin:people_write` and `spark-admin:roles_read`. Add the scope, authorize the app again, and generate a new access token. |
 
 Continue to [Lab 4](lab4_hybrid_licenses.md).
