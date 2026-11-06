@@ -4,7 +4,7 @@ Use this checklist to confirm you have completed the core lab exercises.
 
 ## Core path
 
-- [ ] I reserved a dCloud Webex lab and waited until it was Active
+- [ ] I opened the dCloud Expo lab and launched the **wkst1** Web RDP session
 - [ ] I signed in to Control Hub with the reservation administrator
 - [ ] I ran Bruno Who am I and Create user with my personal access token
 - [ ] I created a Service App and put **access_token** in the Bruno secret and in `.env`

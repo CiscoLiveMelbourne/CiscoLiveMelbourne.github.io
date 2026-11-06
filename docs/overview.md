@@ -51,7 +51,7 @@ Your pod is a Cisco dCloud Windows desktop with a browser, **Bruno**, **VS Code*
 
     That tears down your assigned lab pod, including the prepared Windows desktop and its Webex organization, and bringing it back can take longer than this lab. If your Web RDP tab closes or disconnects, return to Expo and select **Open** for your existing **wkst1** session. If you cannot reconnect, ask a proctor for help; do not end or restart the session yourself.
 
-1. In Chrome on your own computer, open the Cisco Live dCloud Expo lab.
+1. In Chrome on your own computer, open the Cisco Live dCloud Expo lab: [https://www.ciscodcloud.com/apps/expo/9cdaviivg02wjbkk2ytwb30or](https://www.ciscodcloud.com/apps/expo/9cdaviivg02wjbkk2ytwb30or){:target="_blank"}
 2. Enter your email address and accept the lab terms. Expo assigns your session ID; keep it available in case you need a proctor's help.
 3. Select **Open** to launch the browser-based RDP session for **wkst1**, using the Windows user **cholland**.
 

@@ -49,7 +49,7 @@ Use the reservation administrator for Control Hub and token generation. Put the 
 
 | Step | Where | What you do |
 | --- | --- | --- |
-| Overview | [dcloud.cisco.com](https://dcloud.cisco.com/){:target="_blank"} | Confirm reservation Active |
+| Overview | [dCloud Expo lab](https://www.ciscodcloud.com/apps/expo/9cdaviivg02wjbkk2ytwb30or){:target="_blank"} | Enter your email, accept the terms, and open **wkst1** |
 | Overview | [admin.webex.com](https://admin.webex.com/){:target="_blank"} | Sign in and confirm the org |
 | Lab 0 | [developer.webex.com](https://developer.webex.com/){:target="_blank"} | Copy the personal access token |
 | Lab 1 | Service App **Org Authorizations** | Copy **access_token** after you authorize the app |
